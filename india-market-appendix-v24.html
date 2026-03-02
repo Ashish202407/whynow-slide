@@ -1692,59 +1692,58 @@ body::-webkit-scrollbar { display: none; }
 /* Convergence card */
 .conv-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 14px;
 }
 .conv-card {
-  padding: 22px 24px 20px;
+  padding: 18px;
   border-radius: 14px;
-  border: 1px solid var(--border-medium);
+  border: 1px solid var(--border-light);
   background: var(--white);
   position: relative;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
+.conv-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--maroon);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+.conv-card:hover::before { transform: scaleX(1); }
 .conv-card:hover {
-  border-color: rgba(107,10,20,0.18);
-  box-shadow: 0 4px 20px rgba(107,10,20,0.05);
-}
-.conv-card-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  border-color: rgba(107,10,20,0.12);
+  box-shadow: 0 4px 20px rgba(107,10,20,0.04);
+  transform: translateY(-1px);
 }
 .conv-card .conv-num {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--maroon);
-  color: var(--white);
   font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  opacity: 1;
-  margin-bottom: 0;
+  letter-spacing: 1px;
+  color: var(--maroon);
+  opacity: 0.5;
+  margin-bottom: 6px;
 }
 .conv-card h4 {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 0;
+  margin-bottom: 6px;
 }
 .conv-card p {
   font-size: 9.5px;
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--text-secondary);
 }
 
 /* Context-aware card backgrounds */
 .slide-light .mini-card { background: var(--cream); }
-.slide-light .conv-card { background: var(--white); }
+.slide-light .conv-card { background: var(--cream); }
 
 /* Accent line items */
 .accent-item {
@@ -2182,13 +2181,13 @@ body::-webkit-scrollbar { display: none; }
     <div class="animate-in stagger-3" style="width:64px;height:1.5px;background:#6B0A14;margin-top:20px;opacity:0.3;"></div>
   </div>
   <div class="cover-footer animate-in stagger-4">
-    <span>March 2026</span><div class="sep"></div>
+    <span>February 2026</span><div class="sep"></div>
     <span>For Qualified Investors Only</span><div class="sep"></div>
     <span>lanmea.com</span>
   </div>
 </div>
 
-<!-- ── SLIDE 2: WHY INDIA NOW ── -->
+<!-- ── SLIDE 9: I-8 WHY INDIA NOW ── -->
 <div class="slide slide-light" data-bg="light">
   <div class="accent-bar"></div><div class="top-line"></div>
   <div class="slide-header animate-in stagger-1">
@@ -2199,28 +2198,34 @@ body::-webkit-scrollbar { display: none; }
 
   <div class="conv-grid animate-in stagger-2">
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">01</div><h4>Macro Timing</h4></div>
-      <p>Economy at 7.4% growth with low inflation (Apr–Dec 2025 avg); banking sector healthiest in decades, fiscal consolidation on track. A favorable macro window.</p>
+      <div class="conv-num">01</div>
+      <h4>Macro Timing</h4>
+      <p>Economy at 7.4% growth with historic-low inflation (1.7%); banking sector healthiest in decades, fiscal consolidation on track. A &ldquo;Goldilocks&rdquo; moment.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">02</div><h4>Ecosystem Maturation</h4></div>
+      <div class="conv-num">02</div>
+      <h4>Ecosystem Maturation</h4>
       <p>GP landscape deep enough for a diversified portfolio, but still immature enough that selection alpha is wide. A decade ago, too few managers. A decade from now, dispersion may compress. Now is the window.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">03</div><h4>Post-Correction Entry</h4></div>
+      <div class="conv-num">03</div>
+      <h4>Post-Correction Entry</h4>
       <p>2021 peak ($70B) corrected to $39B. Excesses washed out. Valuations more rational. Entry vintages after corrections historically outperform.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">04</div><h4>Regulatory Tailwinds</h4></div>
-      <p>Angel tax abolished, GIFT City AIF framework, simplified FVCI registration, India-EU FTA concluded. The most supportive environment for private capital in decades.</p>
+      <div class="conv-num">04</div>
+      <h4>Regulatory Tailwinds</h4>
+      <p>Angel tax abolished, GIFT City AIF framework, simplified FVCI registration, India-EU FTA signed. The most supportive environment for private capital ever.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">05</div><h4>Global Capital Rotation</h4></div>
+      <div class="conv-num">05</div>
+      <h4>Global Capital Rotation</h4>
       <p>China-to-India reallocation is structural, not cyclical. GPs building teams, LPs building programs. Getting in now means building GP relationships before the market crowds.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">06</div><h4>Exit Environment Improving</h4></div>
-      <p>PE-backed exit values reached $33B and growing. Public markets deep and liquid. IPO activity strong. Distributions are improving; DPI is becoming more visible across recent vintages.</p>
+      <div class="conv-num">06</div>
+      <h4>Exit Environment Improving</h4>
+      <p>Exit values at $33B and growing. Public markets deep and liquid. IPO activity strong. The DPI story is finally materializing.</p>
     </div>
   </div>
 
@@ -2229,15 +2234,15 @@ body::-webkit-scrollbar { display: none; }
       <div style="width:3px;min-height:40px;background:var(--maroon);border-radius:2px;flex-shrink:0;margin-top:2px;"></div>
       <div>
         <div style="font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:4px;">The Bottom Line</div>
-        <div style="font-size:10.5px;font-weight:300;line-height:1.65;color:var(--text-secondary);">India is not &ldquo;emerging&rdquo; in the traditional sense – it&rsquo;s the world&rsquo;s 4th largest economy growing at 7.4%. The PE/VC ecosystem is mature enough to be institutional and young enough to reward selection. The question for institutional allocators has shifted from &ldquo;whether India&rdquo; to &ldquo;how to access it with discipline.&rdquo;</div>
+        <div style="font-size:10.5px;font-weight:300;line-height:1.65;color:var(--text-secondary);">India is not &ldquo;emerging&rdquo; in the traditional sense – it&rsquo;s the world&rsquo;s 4th largest economy growing at 7.4%. The PE/VC ecosystem is mature enough to be institutional and young enough to reward selection. The question is not &ldquo;should I allocate to India&rdquo; but &ldquo;how do I do it well?&rdquo;</div>
       </div>
     </div>
   </div>
 
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 3: THE MACRO OPPORTUNITY ── -->
+<!-- ── SLIDE 2: I-1 THE INDIA GROWTH STORY ── -->
 <div class="slide slide-light" data-bg="light">
   <div class="accent-bar"></div><div class="top-line"></div>
   <div class="slide-header animate-in stagger-1">
@@ -2292,7 +2297,7 @@ body::-webkit-scrollbar { display: none; }
           <div class="accent-line" style="background:var(--maroon);"></div>
           <div>
             <h4>Consumer Powerhouse</h4>
-            <p>Consumption ~72% of GDP (HH ~61.5% + Govt ~10.1%) – world&rsquo;s 3rd largest consumer market. ~60% of consumers expect to increase spending in the next six months.</p>
+            <p>Consumption ~72% of GDP (HH ~61.5% + Govt ~10.1%) – world&rsquo;s 3rd largest consumer market. ~60% of consumers expect to increase spending in next 6 months.</p>
           </div>
         </div>
       </div>
@@ -2330,7 +2335,6 @@ body::-webkit-scrollbar { display: none; }
         <div class="stat-card">
           <div class="stat-value">1.7%</div>
           <div class="stat-label">Avg Inflation Apr–Dec 2025</div>
-          <div style="font-size:7px;font-weight:300;color:var(--text-muted);margin-top:3px;line-height:1.4;">New CPI base (2024=100); methodology updated mid-2025.</div>
         </div>
         <div class="stat-card">
           <div class="stat-value">4.4%</div>
@@ -2364,10 +2368,10 @@ body::-webkit-scrollbar { display: none; }
     </div>
   </div>
   <div class="source-note animate-in stagger-7">Sources: India Economic Survey 2025–26, IMF, World Bank, Deloitte India Economic Outlook Jan 2026, Nuvama Consumer Report 2026, RBI</div>
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 4: INDIA IN GLOBAL PRIVATE MARKETS ── -->
+<!-- ── SLIDE 8: I-7 INDIA IN GLOBAL CONTEXT ── -->
 <div class="slide slide-cream" data-bg="light">
   <div class="accent-bar"></div>
   <div class="slide-header animate-in stagger-1">
@@ -2471,7 +2475,7 @@ body::-webkit-scrollbar { display: none; }
       </div>
       <!-- Runway callout box -->
       <div style="margin-top:16px;background:rgba(107,10,20,0.03);border-radius:10px;padding:12px 14px;">
-        <div style="font-size:16px;font-weight:500;font-family:'Gelasio',Georgia,serif;color:var(--maroon);line-height:1.2;">India: $4.18T economy</div>
+        <div style="font-size:16px;font-weight:500;font-family:'Gelasio',Georgia,serif;color:var(--maroon);line-height:1.2;">India: $4.19T economy</div>
         <div style="font-size:9.5px;font-weight:300;color:var(--text-secondary);margin-top:4px;">~$43B annual PE-VC investment (2024)</div>
       </div>
       <!-- Two accent-line items -->
@@ -2500,10 +2504,10 @@ body::-webkit-scrollbar { display: none; }
   </div>
 
   <div class="source-note animate-in stagger-5">Sources: Bain APAC PE Report 2025, AVCJ, IMF WEO, OECD, Preqin, Deloitte APAC PE Almanac 2025</div>
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 5: PE/VC ECOSYSTEM SNAPSHOT ── -->
+<!-- ── SLIDE 3: I-2 PE/VC ECOSYSTEM SNAPSHOT ── -->
 <div class="slide slide-cream" data-bg="light">
   <div class="accent-bar"></div>
   <div class="slide-header animate-in stagger-1">
@@ -2626,10 +2630,10 @@ body::-webkit-scrollbar { display: none; }
   </div>
 
   <div class="source-note animate-in stagger-7">Sources: Bain &amp; Company India PE Report 2025, IVCA, Chambers &amp; Partners</div>
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 6: FOUNDATIONS ── -->
+<!-- ── SLIDE 4A: FOUNDATIONS ── -->
 <div class="slide slide-light" data-bg="light">
   <div class="accent-bar"></div><div class="top-line"></div>
   <div class="slide-header animate-in stagger-1">
@@ -2738,14 +2742,14 @@ body::-webkit-scrollbar { display: none; }
   </div>
 
   <div class="s4-summary animate-in stagger-5">
-    <p>By the early 2010s, India had moved from early experimentation to a more structured private markets ecosystem. Fund structuring clarity improved, diligence infrastructure deepened, and repeat-manager behavior started to emerge – creating a stronger foundation for institutional scale post-2014.</p>
+    <p>By the early 2010s, India had moved from early experimentation to a more structured private markets ecosystem. Fund structuring clarity improved, diligence infrastructure deepened, and repeat-manager behavior started to emerge – creating a stronger foundation for institutional scale post-2014 while keeping manager selection as the main driver of outcomes.</p>
   </div>
 
   <div class="source-note animate-in stagger-6">Sources: SEBI, Bain India PE Reports, IVCA</div>
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 7: INSTITUTIONAL SCALE-UP ── -->
+<!-- ── SLIDE 4B: INSTITUTIONAL SCALE & MATURATION ── -->
 <div class="slide slide-cream" data-bg="light">
   <div class="accent-bar"></div>
   <div class="slide-header animate-in stagger-1">
@@ -2837,14 +2841,14 @@ body::-webkit-scrollbar { display: none; }
   </div>
 
   <div class="s4-summary animate-in stagger-5">
-    <p>Since the mid-2010s, India's private markets ecosystem has broadened across strategies and deepened in institutional quality. The post-2021 cycle has increased separation between managers, making underwriting discipline, governance judgment, and portfolio construction more important than market exposure alone. For LPs, this maturation creates a wider and more differentiated opportunity set – but also demands sharper underwriting.</p>
+    <p>Since the mid-2010s, India's private markets ecosystem has broadened across strategies and deepened in institutional quality. The post-2021 cycle has increased separation between managers, making underwriting discipline, governance judgment, and portfolio construction more important than market exposure alone. For LPs, manager selection remains the primary driver of outcomes, alongside risk management through pacing and strategy mix.</p>
   </div>
 
   <div class="source-note animate-in stagger-6">Sources: SEBI, Bain India PE Reports, IVCA, CAIA</div>
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 8: FUND MANAGER ECOSYSTEM ── -->
+<!-- ── SLIDE 5: I-4 GP ECOSYSTEM ── -->
 <div class="slide slide-light" data-bg="light">
   <div class="accent-bar"></div><div class="top-line"></div>
   <div class="slide-header animate-in stagger-1">
@@ -2991,10 +2995,10 @@ body::-webkit-scrollbar { display: none; }
   </div>
 
   <div class="source-note animate-in stagger-5">Sources: Bain India PE/VC Reports 2025, SEBI, IVCA</div>
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 9: THE SELECTION IMPERATIVE ── -->
+<!-- ── SLIDE 6: I-5 RETURN DISPERSION ── -->
 <div class="slide slide-cream" data-bg="light">
   <div class="accent-bar"></div>
   <div class="slide-header animate-in stagger-1">
@@ -3105,10 +3109,10 @@ body::-webkit-scrollbar { display: none; }
     </div>
   </div>
   <div class="source-note animate-in stagger-6">Sources: Cambridge Associates, J.P. Morgan Asset Management, CAIS, BCG 2026, Preqin, Gridline</div>
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 10: GLOBAL CAPITAL ROTATION ── -->
+<!-- ── SLIDE 7: I-6 GLOBAL CAPITAL ROTATION ── -->
 <div class="slide slide-light" data-bg="light">
   <div class="accent-bar"></div><div class="top-line"></div>
 
@@ -3227,8 +3231,8 @@ body::-webkit-scrollbar { display: none; }
       </div>
       <div class="gcr-tile">
         <div class="gcr-tile-name">Blackstone</div>
-        <div class="gcr-tile-num">Target: ~$100B</div>
-        <div class="gcr-tile-desc">Total India exposure (2x current)</div>
+        <div class="gcr-tile-num">~$100B</div>
+        <div class="gcr-tile-desc">Target to double India exposure</div>
       </div>
       <div class="gcr-tile">
         <div class="gcr-tile-name">KKR</div>
@@ -3261,10 +3265,10 @@ body::-webkit-scrollbar { display: none; }
   </div>
 
   <div class="source-note animate-in stagger-6">Sources: Bain APAC PE Report 2025, Preqin, Deloitte APAC PE Almanac 2025</div>
-  <div class="slide-footer"><span>March 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
+  <div class="slide-footer"><span>February 2026</span><div class="sep"></div><span>For Qualified Investors Only</span><div class="sep"></div><span>lanmea.com</span></div>
 </div>
 
-<!-- ── SLIDE 11: COVER (CLOSING) ── -->
+<!-- ── SLIDE 11: CLOSING COVER ── -->
 <div class="slide slide-cover" data-bg="light">
   <div class="accent-bar"></div>
   <div class="deco-circle-dashed" style="top:-18%;right:-6%;width:55vh;height:55vh;border-color:rgba(107,10,20,0.18);animation-duration:90s;"></div>
@@ -3278,7 +3282,7 @@ body::-webkit-scrollbar { display: none; }
     <div class="animate-in stagger-3" style="width:64px;height:1.5px;background:#6B0A14;margin-top:20px;opacity:0.3;"></div>
   </div>
   <div class="cover-footer animate-in stagger-4">
-    <span>March 2026</span><div class="sep"></div>
+    <span>February 2026</span><div class="sep"></div>
     <span>For Qualified Investors Only</span><div class="sep"></div>
     <span>lanmea.com</span>
   </div>

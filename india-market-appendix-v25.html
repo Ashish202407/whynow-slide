@@ -1692,59 +1692,58 @@ body::-webkit-scrollbar { display: none; }
 /* Convergence card */
 .conv-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 14px;
 }
 .conv-card {
-  padding: 22px 24px 20px;
+  padding: 18px;
   border-radius: 14px;
-  border: 1px solid var(--border-medium);
+  border: 1px solid var(--border-light);
   background: var(--white);
   position: relative;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
+.conv-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--maroon);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+.conv-card:hover::before { transform: scaleX(1); }
 .conv-card:hover {
-  border-color: rgba(107,10,20,0.18);
-  box-shadow: 0 4px 20px rgba(107,10,20,0.05);
-}
-.conv-card-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  border-color: rgba(107,10,20,0.12);
+  box-shadow: 0 4px 20px rgba(107,10,20,0.04);
+  transform: translateY(-1px);
 }
 .conv-card .conv-num {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--maroon);
-  color: var(--white);
   font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  opacity: 1;
-  margin-bottom: 0;
+  letter-spacing: 1px;
+  color: var(--maroon);
+  opacity: 0.5;
+  margin-bottom: 6px;
 }
 .conv-card h4 {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 0;
+  margin-bottom: 6px;
 }
 .conv-card p {
   font-size: 9.5px;
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--text-secondary);
 }
 
 /* Context-aware card backgrounds */
 .slide-light .mini-card { background: var(--cream); }
-.slide-light .conv-card { background: var(--white); }
+.slide-light .conv-card { background: var(--cream); }
 
 /* Accent line items */
 .accent-item {
@@ -2199,27 +2198,33 @@ body::-webkit-scrollbar { display: none; }
 
   <div class="conv-grid animate-in stagger-2">
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">01</div><h4>Macro Timing</h4></div>
+      <div class="conv-num">01</div>
+      <h4>Macro Timing</h4>
       <p>Economy at 7.4% growth with low inflation (Apr–Dec 2025 avg); banking sector healthiest in decades, fiscal consolidation on track. A favorable macro window.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">02</div><h4>Ecosystem Maturation</h4></div>
+      <div class="conv-num">02</div>
+      <h4>Ecosystem Maturation</h4>
       <p>GP landscape deep enough for a diversified portfolio, but still immature enough that selection alpha is wide. A decade ago, too few managers. A decade from now, dispersion may compress. Now is the window.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">03</div><h4>Post-Correction Entry</h4></div>
+      <div class="conv-num">03</div>
+      <h4>Post-Correction Entry</h4>
       <p>2021 peak ($70B) corrected to $39B. Excesses washed out. Valuations more rational. Entry vintages after corrections historically outperform.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">04</div><h4>Regulatory Tailwinds</h4></div>
+      <div class="conv-num">04</div>
+      <h4>Regulatory Tailwinds</h4>
       <p>Angel tax abolished, GIFT City AIF framework, simplified FVCI registration, India-EU FTA concluded. The most supportive environment for private capital in decades.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">05</div><h4>Global Capital Rotation</h4></div>
+      <div class="conv-num">05</div>
+      <h4>Global Capital Rotation</h4>
       <p>China-to-India reallocation is structural, not cyclical. GPs building teams, LPs building programs. Getting in now means building GP relationships before the market crowds.</p>
     </div>
     <div class="conv-card">
-      <div class="conv-card-head"><div class="conv-num">06</div><h4>Exit Environment Improving</h4></div>
+      <div class="conv-num">06</div>
+      <h4>Exit Environment Improving</h4>
       <p>PE-backed exit values reached $33B and growing. Public markets deep and liquid. IPO activity strong. Distributions are improving; DPI is becoming more visible across recent vintages.</p>
     </div>
   </div>
