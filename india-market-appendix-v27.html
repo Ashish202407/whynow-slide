@@ -1403,16 +1403,16 @@ body::-webkit-scrollbar { display: none; }
   font-size: 11px;
   font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 11px;
+  margin-bottom: 8px;
 }
 
 /* ── Range chart ── */
 .si-chart-wrap {
   position: relative;
-  height: 130px;
+  height: 155px;
   margin-left: 28px;
   margin-right: 6px;
-  margin-bottom: 35px;
+  margin-bottom: 10px;
 }
 .si-y-axis {
   position: absolute;
@@ -1461,24 +1461,24 @@ body::-webkit-scrollbar { display: none; }
   width: 22px;
   left: calc(50% - 11px);
   border-radius: 4px;
-  background: linear-gradient(to top, rgba(107,10,20,0.18), rgba(107,10,20,0.52));
+  background: linear-gradient(to top, rgba(107,10,20,0.12), rgba(107,10,20,0.38));
   transition: background 0.3s ease;
   overflow: visible;
 }
 .si-bar-col:hover .si-range-bar {
-  background: linear-gradient(to top, rgba(107,10,20,0.25), rgba(107,10,20,0.60));
+  background: linear-gradient(to top, rgba(107,10,20,0.20), rgba(107,10,20,0.48));
 }
 .si-bar-col.si-bar-highlight .si-range-bar {
   width: 26px;
   left: calc(50% - 13px);
-  background: linear-gradient(to top, rgba(107,10,20,0.30), rgba(107,10,20,0.75));
+  background: linear-gradient(to top, rgba(107,10,20,0.25), rgba(107,10,20,0.70));
 }
 .si-median-mark {
   position: absolute;
   left: -2px;
   width: calc(100% + 4px);
   height: 2px;
-  background: #4A0710;
+  background: var(--dark);
   border-radius: 1px;
 }
 .si-val-top {
@@ -1503,31 +1503,24 @@ body::-webkit-scrollbar { display: none; }
 }
 .si-bar-vintage {
   position: absolute;
-  bottom: -25px;
+  bottom: -18px;
   font-size: 8px;
   font-weight: 500;
   color: var(--text-primary);
   letter-spacing: 0.3px;
 }
-.si-spread-band {
-  display: flex;
-  justify-content: space-around;
-  margin-left: 28px;
-  margin-right: 6px;
-  padding: 5px 8px;
-  background: rgba(107,10,20,0.04);
-  border-radius: 5px;
-}
-.si-spread-val {
-  flex: 1;
-  text-align: center;
-  font-size: 7.5px;
+.si-bar-spread {
+  position: absolute;
+  bottom: -29px;
+  font-size: 7px;
   font-weight: 600;
   color: var(--maroon);
   letter-spacing: 0.5px;
+  white-space: nowrap;
+  opacity: 0.8;
 }
 .si-chart-legend {
-  margin-top: 10px;
+  margin-top: 32px;
   display: flex;
   gap: 16px;
   align-items: center;
@@ -1545,14 +1538,14 @@ body::-webkit-scrollbar { display: none; }
   width: 12px;
   height: 8px;
   border-radius: 2px;
-  background: linear-gradient(to top, rgba(107,10,20,0.18), rgba(107,10,20,0.52));
+  background: linear-gradient(to top, rgba(107,10,20,0.12), rgba(107,10,20,0.38));
 }
 .si-leg-median {
   display: inline-block;
   width: 12px;
   height: 2px;
   border-radius: 1px;
-  background: #4A0710;
+  background: var(--dark);
 }
 .si-chart-source {
   margin-top: 6px;
@@ -1566,23 +1559,19 @@ body::-webkit-scrollbar { display: none; }
   display: flex;
   align-items: center;
   gap: 0;
-  margin: 12px 0;
-  padding: 6px 0;
-  border-radius: 10px;
-  border: 1px solid var(--border-light);
-  background: rgba(244,247,243,0.5);
+  margin: 8px 0;
 }
 .si-compare-item {
   flex: 1;
   text-align: center;
-  padding: 14px 10px;
+  padding: 10px 8px;
 }
 .si-compare-item:first-child {
   border-right: 1px solid var(--border-light);
 }
 .si-compare-value {
   font-family: 'Gelasio', Georgia, serif;
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 500;
   line-height: 1;
   color: var(--text-primary);
@@ -1590,8 +1579,8 @@ body::-webkit-scrollbar { display: none; }
 .si-compare-value.si-accent { color: var(--maroon); }
 .si-compare-value.si-muted { color: var(--text-muted); }
 .si-compare-label {
-  margin-top: 8px;
-  font-size: 8.5px;
+  margin-top: 6px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -1605,12 +1594,12 @@ body::-webkit-scrollbar { display: none; }
   line-height: 1.35;
 }
 .si-compare-note {
-  margin-top: 10px;
-  padding-top: 10px;
+  margin-top: 6px;
+  padding-top: 6px;
   border-top: 1px solid var(--border-light);
-  font-size: 8.5px;
+  font-size: 7.8px;
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--text-secondary);
 }
 
@@ -1739,7 +1728,7 @@ body::-webkit-scrollbar { display: none; }
   margin-top: 6px;
   padding-top: 6px;
   border-top: 1px solid var(--border-light);
-  font-size: 8.5px;
+  font-size: 7.5px;
   font-weight: 300;
   line-height: 1.5;
   color: var(--text-secondary);
@@ -3115,7 +3104,7 @@ body::-webkit-scrollbar { display: none; }
       <!-- Range chart: India AIF quartile dispersion by vintage -->
       <div class="si-card animate-in stagger-2">
         <div class="si-kicker">India AIF Category II - Quartile IRR by Vintage</div>
-        <div class="si-card-title">Return Dispersion Across India Category II AIF Vintages</div>
+        <div class="si-card-title">Return Dispersion Across Indian PE Vintages</div>
         <div class="si-chart-wrap">
           <!-- Y-axis labels -->
           <div class="si-y-axis">
@@ -3141,6 +3130,7 @@ body::-webkit-scrollbar { display: none; }
               <div class="si-val-top" style="bottom:calc(16.8/22*100%);">16.8</div>
               <div class="si-val-bot" style="bottom:calc(8.4/22*100%);">8.4</div>
               <div class="si-bar-vintage">FY16</div>
+              <div class="si-bar-spread">8.4pp</div>
             </div>
             <!-- FY17: Top 16.0, Med 11.4, Bot 7.5, Spread 8.5pp -->
             <div class="si-bar-col">
@@ -3150,6 +3140,7 @@ body::-webkit-scrollbar { display: none; }
               <div class="si-val-top" style="bottom:calc(16.0/22*100%);">16.0</div>
               <div class="si-val-bot" style="bottom:calc(7.5/22*100%);">7.5</div>
               <div class="si-bar-vintage">FY17</div>
+              <div class="si-bar-spread">8.5pp</div>
             </div>
             <!-- FY18: Top 17.1, Med 12.8, Bot 9.3, Spread 7.8pp -->
             <div class="si-bar-col">
@@ -3159,6 +3150,7 @@ body::-webkit-scrollbar { display: none; }
               <div class="si-val-top" style="bottom:calc(17.1/22*100%);">17.1</div>
               <div class="si-val-bot" style="bottom:calc(9.3/22*100%);">9.3</div>
               <div class="si-bar-vintage">FY18</div>
+              <div class="si-bar-spread">7.8pp</div>
             </div>
             <!-- FY19: Top 20.6, Med 8.9, Bot 0.4, Spread 20.2pp (highlight) -->
             <div class="si-bar-col si-bar-highlight">
@@ -3168,6 +3160,7 @@ body::-webkit-scrollbar { display: none; }
               <div class="si-val-top" style="bottom:calc(20.6/22*100%);">20.6</div>
               <div class="si-val-bot" style="bottom:calc(0.4/22*100%);">0.4</div>
               <div class="si-bar-vintage">FY19</div>
+              <div class="si-bar-spread">20.2pp</div>
             </div>
             <!-- FY20: Top 18.0, Med 12.7, Bot 3.5, Spread 14.5pp -->
             <div class="si-bar-col">
@@ -3177,15 +3170,9 @@ body::-webkit-scrollbar { display: none; }
               <div class="si-val-top" style="bottom:calc(18.0/22*100%);">18.0</div>
               <div class="si-val-bot" style="bottom:calc(3.5/22*100%);">3.5</div>
               <div class="si-bar-vintage">FY20</div>
+              <div class="si-bar-spread">14.5pp</div>
             </div>
           </div>
-        </div>
-        <div class="si-spread-band">
-          <div class="si-spread-val">8.4pp</div>
-          <div class="si-spread-val">8.5pp</div>
-          <div class="si-spread-val">7.8pp</div>
-          <div class="si-spread-val" style="font-weight:700;">20.2pp</div>
-          <div class="si-spread-val">14.5pp</div>
         </div>
         <div class="si-chart-legend">
           <span><span class="si-leg-bar"></span> Top-to-bottom quartile range (IRR, INR)</span>
@@ -3211,9 +3198,9 @@ body::-webkit-scrollbar { display: none; }
           </div>
         </div>
         <div class="si-compare-note">Based on 10-year annualized returns (Jan 2024). In traditional/listed manager universes, dispersion is narrow enough that manager selection adds marginal value. In private markets, the spread is outcome-defining.</div>
-        <div style="margin-top:12px;padding:10px 14px;border-radius:8px;background:rgba(107,10,20,0.035);">
-          <div style="font-size:7.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--maroon);margin-bottom:4px;">The Takeaway</div>
-          <div style="font-size:8.5px;font-weight:300;line-height:1.55;color:var(--text-primary);">The difference between a strong and weak manager in India private markets is large enough to change portfolio outcomes materially. This is not marginal alpha — it is the primary driver of portfolio-level returns.</div>
+        <div style="margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(107,10,20,0.035);">
+          <div style="font-size:7px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--maroon);margin-bottom:3px;">The Takeaway</div>
+          <div style="font-size:8px;font-weight:300;line-height:1.45;color:var(--text-primary);">The difference between a strong and weak manager in India private markets is large enough to change portfolio outcomes materially. This is not marginal alpha — it is the primary driver of portfolio-level returns.</div>
         </div>
         <div class="si-chart-source" style="margin-top:8px;">Source: Morgan Stanley Wealth Management</div>
       </div>
