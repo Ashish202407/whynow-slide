@@ -1475,22 +1475,46 @@ body::-webkit-scrollbar { display: none; }
 .s5n-slide .slide-header h2 { font-size: 26px; }
 .s5n-slide .header-divider { margin-bottom: 0; }
 
+/* Intro narrative block */
+.s5n-intro {
+  position: relative;
+  padding: 10px 14px 10px 18px;
+  border-radius: 10px;
+  background: rgba(244,247,243,0.5);
+  border: 1px solid var(--border-light);
+  margin-top: 8px;
+  margin-bottom: 6px;
+  flex: none;
+  font-size: 10.5px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+.s5n-intro::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: var(--maroon);
+}
+
 /* Two-column layout — uses a 2x2 grid for vertical alignment */
 .s5n-columns {
   display: grid;
   grid-template-columns: 52% 48%;
   grid-template-rows: auto auto;
   column-gap: 36px;
-  row-gap: 16px;
+  row-gap: 0px;
   flex: 1;
-  margin-top: 14px;
+  margin-top: 19px;
   min-height: 0;
   align-items: start;
 }
 /* Top-left: ladder area */
 .s5n-top-left { grid-column: 1; grid-row: 1; }
 /* Top-right: per capita area */
-.s5n-top-right { grid-column: 2; grid-row: 1; }
+.s5n-top-right { grid-column: 2; grid-row: 1; padding-top: 28px; }
 /* Bottom-left: growth stat + chart */
 .s5n-bot-left { grid-column: 1; grid-row: 2; }
 /* Bottom-right: urbanization */
@@ -1576,8 +1600,8 @@ body::-webkit-scrollbar { display: none; }
 }
 .s5n-growth-sub {
   font-size: 10px;
-  font-weight: 400;
-  color: var(--text-secondary);
+  font-weight: 600;
+  color: var(--text-primary);
   margin-bottom: 10px;
 }
 
@@ -1649,7 +1673,7 @@ body::-webkit-scrollbar { display: none; }
   font-weight: 400;
   line-height: 1.6;
   color: var(--text-secondary);
-  margin-top: 8px;
+  margin-top: 13px;
 }
 .s5n-growth-text strong {
   font-weight: 700;
@@ -1725,8 +1749,8 @@ body::-webkit-scrollbar { display: none; }
 .s5n-urban-bars {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 8px;
 }
 .s5n-urban-row {
   display: flex;
@@ -1734,10 +1758,10 @@ body::-webkit-scrollbar { display: none; }
   gap: 8px;
 }
 .s5n-urban-label {
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 400;
   color: var(--text-muted);
-  width: 44px;
+  width: 56px;
   flex-shrink: 0;
   text-align: right;
 }
@@ -1747,7 +1771,7 @@ body::-webkit-scrollbar { display: none; }
 }
 .s5n-urban-track {
   flex: 1;
-  height: 14px;
+  height: 18px;
   background: rgba(36,24,24,0.03);
   border-radius: 3px;
   overflow: visible;
@@ -2176,8 +2200,11 @@ body::-webkit-scrollbar { display: none; }
   </div>
   <div class="header-divider"></div>
 
+  <!-- Opening narrative -->
+  <div class="s5n-intro animate-in stagger-2">Three decades ago, India ranked behind most developed economies. Since then it has overtaken 12 countries, crossed the $4 trillion mark, and become the fastest-growing major economy in the world. Yet at just $2,500 per capita and 37.6% urbanised, India today looks like China did in the early 2000s - right before its greatest decade of economic expansion.</div>
+
   <!-- Two-column layout (2x2 grid for vertical alignment) -->
-  <div class="s5n-columns animate-in stagger-2">
+  <div class="s5n-columns animate-in stagger-3">
 
     <!-- TOP-LEFT: GDP Ranking Ladder -->
     <div class="s5n-top-left">
@@ -2260,13 +2287,6 @@ body::-webkit-scrollbar { display: none; }
               <div class="s5n-hbar-val">~1.2%</div>
             </div>
           </div>
-          <div class="s5n-hbar-row">
-            <div class="s5n-hbar-label">Germany</div>
-            <div class="s5n-hbar-track">
-              <div class="s5n-hbar-fill s5n-gray" style="width:4%;"></div>
-              <div class="s5n-hbar-val">~0.3%</div>
-            </div>
-          </div>
         </div>
         <div class="s5n-growth-text"><strong>2.6x</strong> faster than the US. <strong>5.4x</strong> faster than Japan. India is the fastest-growing major economy in the world, compounding at rates that developed markets have not seen in decades.</div>
       </div>
@@ -2277,7 +2297,6 @@ body::-webkit-scrollbar { display: none; }
       <div class="s5n-right-section animate-in stagger-5">
         <div class="s5n-right-num">37.6%</div>
         <div class="s5n-right-title">Urban population</div>
-        <div class="s5n-right-text">China urbanised from 26% to 64% in 30 years, creating trillions in economic value. India will add 416 million urban residents by 2050 - the largest urban migration in history. At just 37.6% urbanised - half of China&rsquo;s rate and less than half of the US - India&rsquo;s infrastructure, housing, and consumption growth cycles are still in the early chapters.</div>
         <div class="s5n-urban-bars">
           <div class="s5n-urban-row">
             <div class="s5n-urban-label s5n-urban-india">India</div>
@@ -2308,6 +2327,7 @@ body::-webkit-scrollbar { display: none; }
             </div>
           </div>
         </div>
+        <div class="s5n-right-text" style="margin-top:16.5px;">India will add <strong style="color:var(--maroon);font-weight:700;">416 million</strong> urban residents by <strong style="color:var(--maroon);font-weight:700;">2050</strong> - the largest urban migration in history. At just 37.6% urbanised, half of China&rsquo;s rate, the infrastructure and consumption growth cycles are still in the early chapters.</div>
       </div>
 
     </div>
