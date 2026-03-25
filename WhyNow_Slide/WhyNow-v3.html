@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why India &amp; SEA Now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gelasio:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ======================================================================
+   TOKENS & RESET
+   ====================================================================== */
+:root {
+  --maroon: #6B0A14;
+  --dark: #241818;
+  --cream: #F4F7F3;
+  --papaya: #FFF0D6;
+  --green: #1D3B29;
+  --white: #FFFFFF;
+  --text-primary: #241818;
+  --text-secondary: rgba(36, 24, 24, 0.72);
+  --text-muted: rgba(36, 24, 24, 0.50);
+  --border-light: rgba(36, 24, 24, 0.08);
+  --border-medium: rgba(36, 24, 24, 0.12);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar { display: none; }
+
+/* ======================================================================
+   SLIDE CONTAINER
+   ====================================================================== */
+.deck {
+  position: relative;
+  height: 100vh;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  transform-origin: top left;
+}
+
+/* ======================================================================
+   NAVIGATION
+   ====================================================================== */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  transition: all 0.5s ease;
+}
+.nav-logo {
+  transition: all 0.5s ease;
+  display: none;
+}
+.nav-logo img {
+  width: auto;
+  display: block;
+  transition: filter 0.5s ease, opacity 0.4s ease;
+}
+.logo-full { height: 38px; }
+.nav-bar.on-cover { padding: 36px 72px; }
+.nav-bar.on-cover .logo-full { height: 48px; }
+.logo-icon { height: 26px; display: none !important; }
+.nav-logo.icon-mode .logo-full { display: none !important; }
+.nav-logo.icon-mode .logo-icon { display: block !important; }
+.nav-bar.on-dark .nav-logo img { filter: brightness(0) invert(1); }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav-confidential {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.5s ease;
+}
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.progress-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border-medium);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+.progress-dot.active {
+  background: var(--maroon);
+  width: 20px;
+  border-radius: 3px;
+}
+.nav-arrows {
+  position: fixed;
+  bottom: 32px;
+  right: 48px;
+  z-index: 100;
+  display: flex;
+  gap: 10px;
+}
+.nav-arrow {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--dark);
+}
+.nav-arrow:hover {
+  background: var(--maroon);
+  border-color: var(--maroon);
+  color: white;
+  transform: scale(1.05);
+}
+.nav-arrow.disabled { opacity: 0.25; pointer-events: none; }
+.nav-arrow svg { width: 16px; height: 16px; }
+.slide-counter {
+  position: fixed;
+  bottom: 40px;
+  left: 48px;
+  z-index: 100;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  transition: color 0.5s ease;
+}
+.nav-bar.on-dark .nav-confidential { color: rgba(255,255,255,0.25); }
+.nav-bar.on-dark .progress-dot { background: rgba(255,255,255,0.12); }
+.nav-bar.on-dark .progress-dot.active { background: var(--papaya); }
+.slide-counter.on-dark { color: rgba(255,255,255,0.25); }
+.nav-arrow.on-dark {
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.7);
+}
+.nav-arrow.on-dark:hover {
+  background: var(--papaya);
+  border-color: var(--papaya);
+  color: var(--dark);
+}
+
+/* ======================================================================
+   ANIMATIONS
+   ====================================================================== */
+.animate-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.slide.active .animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.stagger-1 { transition-delay: 0.08s; }
+.stagger-2 { transition-delay: 0.18s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.42s; }
+.stagger-5 { transition-delay: 0.54s; }
+.stagger-6 { transition-delay: 0.66s; }
+.stagger-7 { transition-delay: 0.78s; }
+.stagger-8 { transition-delay: 0.9s; }
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ======================================================================
+   SHARED COMPONENTS
+   ====================================================================== */
+.accent-bar {
+  position: absolute;
+  left: 0; top: 0;
+  width: 4px; height: 100%;
+  background: var(--maroon);
+}
+.top-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--maroon);
+}
+.section-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-bottom: 5px;
+}
+.section-underline {
+  width: 48px;
+  height: 1.5px;
+  background: var(--maroon);
+  margin-bottom: 14px;
+}
+.slide-header {
+  margin-bottom: 28px;
+}
+.slide-header h2 {
+  font-size: 28px;
+  font-weight: 500;
+  font-family: 'Gelasio', Georgia, serif;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.slide-header h2 span { color: var(--maroon); font-weight: 600; }
+.slide-header .sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+.header-divider {
+  height: 1px;
+  background: var(--border-light);
+  margin-bottom: 28px;
+}
+
+/* Slide backgrounds */
+.slide-light {
+  background: var(--white);
+  padding: 88px 100px 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Slide footer */
+.slide-footer {
+  position: absolute;
+  bottom: 24px;
+  left: 100px; right: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--text-muted);
+  z-index: 2;
+}
+.slide-footer .sep {
+  width: 1px; height: 8px;
+  background: var(--border-medium);
+}
+
+/* Cover styles (needed for em styling) */
+.cover-content h1 em {
+  font-style: normal;
+  color: var(--maroon);
+  font-weight: 600;
+}
+
+/* Download button */
+.nav-download {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border-medium);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-muted);
+}
+.nav-download:hover {
+  background: var(--maroon);
+  border-color: var(--maroon);
+  color: white;
+}
+.nav-download svg { width: 14px; height: 14px; }
+
+/* Keyboard hint */
+.keyboard-hint {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--text-muted);
+  opacity: 1;
+  transition: opacity 1s ease;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.keyboard-hint.hidden { opacity: 0; pointer-events: none; }
+.key-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 4px;
+  border: 1px solid var(--border-medium);
+  font-size: 9px;
+}
+
+/* ======================================================================
+   WHY NOW SLIDE STYLES
+   ====================================================================== */
+
+/* Slide-level overrides */
+.wn-slide .slide-header { margin-bottom: 10px; }
+.wn-slide .slide-header h2 { font-size: 30px; }
+.wn-slide .header-divider { margin-bottom: 14px; }
+
+/* Title em styling - maroon italic */
+.wn-slide .slide-header h2 em {
+  font-style: italic;
+  color: var(--maroon);
+  font-weight: 600;
+}
+
+/* Subtitle */
+.wn-slide .slide-header .sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+/* Hero stats strip */
+.wn-stats-strip {
+  display: flex;
+  align-items: center;
+  padding: 18px 0 20px;
+  flex: none;
+}
+.wn-stat {
+  flex: 1;
+  text-align: center;
+  padding: 0 16px;
+}
+.wn-stat:not(:last-child) {
+  border-right: 1px solid var(--border-light);
+}
+.wn-stat-value {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.wn-stat-label {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* Two-column layout */
+.wn-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  margin-top: 14px;
+  flex: none;
+  align-items: start;
+}
+
+/* Section headers with maroon underline */
+.wn-section-header {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--maroon);
+  display: inline-block;
+}
+
+/* Chart labels */
+.wn-chart-label {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* GDP vs PE/VC comparison chart */
+.wn-compare-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.wn-compare-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.wn-compare-region {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.wn-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wn-bar-type {
+  font-size: 8px;
+  font-weight: 400;
+  color: var(--text-muted);
+  width: 58px;
+  flex-shrink: 0;
+  text-align: right;
+}
+.wn-bar-track {
+  flex: 1;
+  height: 16px;
+  background: rgba(36,24,24,0.03);
+  border-radius: 3px;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+}
+.wn-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+.wn-bar-fill.wn-gdp { background: var(--green); }
+.wn-bar-fill.wn-pevc { background: var(--maroon); }
+.wn-bar-val {
+  font-size: 9px;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+.wn-bar-fill.wn-gdp + .wn-bar-val { color: var(--green); }
+.wn-bar-fill.wn-pevc + .wn-bar-val { color: var(--maroon); }
+
+/* Source note */
+.wn-source {
+  font-size: 7.5px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* Dispersion chart - v2 redesign */
+.wn-dispersion-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.wn-dispersion-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.wn-dispersion-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.wn-dispersion-track-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wn-dispersion-track {
+  flex: 1;
+  height: 18px;
+  background: rgba(36,24,24,0.04);
+  border-radius: 4px;
+  position: relative;
+}
+.wn-dispersion-range {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  border-radius: 3px;
+}
+.wn-dispersion-range.wn-maroon-range { background: var(--maroon); }
+.wn-dispersion-range.wn-maroon-range-light { background: rgba(107, 10, 20, 0.7); }
+.wn-dispersion-range.wn-gray-range { background: rgba(36,24,24,0.20); }
+
+/* Dispersion markers */
+.wn-dispersion-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 1px;
+  z-index: 2;
+}
+.wn-dispersion-marker.wn-marker-maroon { background: #fff; }
+.wn-dispersion-marker.wn-marker-gray { background: rgba(255,255,255,0.8); }
+.wn-dispersion-marker-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  border: 1.5px solid #fff;
+}
+.wn-dispersion-marker-dot.wn-dot-maroon { background: var(--maroon); }
+.wn-dispersion-marker-dot.wn-dot-maroon-light { background: rgba(107, 10, 20, 0.7); }
+.wn-dispersion-marker-dot.wn-dot-gray { background: rgba(36,24,24,0.35); }
+
+/* Dispersion endpoint labels */
+.wn-dispersion-labels {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  height: 14px;
+  margin-top: 1px;
+}
+.wn-dispersion-val {
+  position: absolute;
+  font-size: 8px;
+  font-weight: 500;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.wn-dispersion-val.wn-val-maroon { color: var(--maroon); }
+.wn-dispersion-val.wn-val-muted { color: var(--text-muted); }
+.wn-spread {
+  font-size: 9px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.wn-spread.wn-maroon-text { color: var(--maroon); }
+.wn-spread.wn-muted-text { color: var(--text-muted); }
+
+/* Dispersion scale */
+.wn-dispersion-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0 1px;
+}
+.wn-dispersion-scale span {
+  font-size: 7px;
+  font-weight: 400;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+/* Bottom blocks grid - 2x2 */
+.wn-blocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 36px;
+  margin-top: 12px;
+  flex: none;
+}
+
+/* Accent block item */
+.wn-block {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.wn-block-accent {
+  width: 3px;
+  min-height: 24px;
+  border-radius: 2px;
+  background: var(--maroon);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.wn-block-accent.wn-accent-green { background: var(--green); }
+.wn-section-header.wn-green-underline { border-bottom-color: var(--green); }
+.wn-block-content {
+  flex: 1;
+  min-width: 0;
+}
+.wn-block h4 {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.45;
+  margin-bottom: 4px;
+}
+.wn-block p {
+  font-size: 9.5px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* ======================================================================
+   PRINT STYLES
+   ====================================================================== */
+@media print {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html, body {
+    overflow: visible !important;
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .nav-bar,
+  .nav-arrows,
+  .slide-counter,
+  .keyboard-hint,
+  .progress { display: none !important; }
+
+  .deck {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
+    transform: none !important;
+  }
+
+  .slide {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    height: 100vh !important;
+    transform: none !important;
+    overflow: hidden !important;
+    page-break-after: always;
+    break-after: page;
+    break-inside: avoid;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .slide:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  .animate-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .deco-circle-dashed { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="nav-bar" id="navBar">
+  <div class="nav-logo">
+    <!-- Logo removed for v2 -->
+  </div>
+  <div class="nav-right" style="margin-left:auto;">
+    <button class="nav-download" onclick="downloadPDF()" title="Print / Save PDF">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
+    <div class="progress" id="progress"></div>
+  </div>
+</div>
+
+<div class="slide-counter" id="slideCounter">01 / 01</div>
+
+<div class="nav-arrows" id="navArrows">
+  <div class="nav-arrow disabled" id="prevBtn" onclick="navigate(-1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+  </div>
+  <div class="nav-arrow disabled" id="nextBtn" onclick="navigate(1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+</div>
+
+<div class="keyboard-hint" id="keyHint">
+  <span class="key-icon">&larr;</span><span class="key-icon">&rarr;</span> to navigate
+</div>
+
+<div class="deck" id="deck">
+
+<!-- == SLIDE 1: WHY INDIA & SEA NOW == -->
+<div class="slide slide-light wn-slide active" data-bg="light">
+  <div class="accent-bar"></div><div class="top-line"></div>
+
+  <div class="slide-header animate-in stagger-1">
+    <h2>Why India &amp; SEA <em>Now</em></h2>
+    <div class="sub">A market that rewards disciplined selection and punishes passive allocation</div>
+  </div>
+  <div class="header-divider animate-in stagger-1"></div>
+
+  <!-- Hero Stats Strip - 3 stats -->
+  <div class="wn-stats-strip animate-in stagger-2">
+    <div class="wn-stat">
+      <div class="wn-stat-value">1.5-2x</div>
+      <div class="wn-stat-label">GDP Growth vs. Global Average</div>
+    </div>
+    <div class="wn-stat">
+      <div class="wn-stat-value">$59B</div>
+      <div class="wn-stat-label">Combined PE/VC Investments (India &amp; SEA 2024)</div>
+    </div>
+    <div class="wn-stat">
+      <div class="wn-stat-value">~$39B</div>
+      <div class="wn-stat-label">India and SEA PE Exits (2024)</div>
+    </div>
+  </div>
+
+  <!-- Two-column layout -->
+  <div class="wn-columns animate-in stagger-3">
+
+    <!-- LEFT COLUMN -->
+    <div class="wn-col-left">
+      <div class="wn-section-header wn-green-underline">The Structural Opportunity</div>
+      <div class="wn-chart-label">Share of Global GDP vs. PE/VC Capital Allocation</div>
+
+      <div class="wn-compare-chart">
+        <!-- India -->
+        <div class="wn-compare-group">
+          <div class="wn-compare-region">India</div>
+          <div class="wn-bar-row">
+            <div class="wn-bar-type">GDP share</div>
+            <div class="wn-bar-track">
+              <div class="wn-bar-fill wn-gdp" style="width: 14%;"></div>
+              <span class="wn-bar-val">3.7%</span>
+            </div>
+          </div>
+          <div class="wn-bar-row">
+            <div class="wn-bar-type">PE/VC share</div>
+            <div class="wn-bar-track">
+              <div class="wn-bar-fill wn-pevc" style="width: 5%;"></div>
+              <span class="wn-bar-val">~3%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Southeast Asia -->
+        <div class="wn-compare-group">
+          <div class="wn-compare-region">Southeast Asia</div>
+          <div class="wn-bar-row">
+            <div class="wn-bar-type">GDP share</div>
+            <div class="wn-bar-track">
+              <div class="wn-bar-fill wn-gdp" style="width: 14%;"></div>
+              <span class="wn-bar-val">3.6%</span>
+            </div>
+          </div>
+          <div class="wn-bar-row">
+            <div class="wn-bar-type">PE/VC share</div>
+            <div class="wn-bar-track">
+              <div class="wn-bar-fill wn-pevc" style="width: 3%;"></div>
+              <span class="wn-bar-val">~1-2%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- US -->
+        <div class="wn-compare-group">
+          <div class="wn-compare-region">United States</div>
+          <div class="wn-bar-row">
+            <div class="wn-bar-type">GDP share</div>
+            <div class="wn-bar-track">
+              <div class="wn-bar-fill wn-gdp" style="width: 44%;"></div>
+              <span class="wn-bar-val">~26%</span>
+            </div>
+          </div>
+          <div class="wn-bar-row">
+            <div class="wn-bar-type">PE/VC share</div>
+            <div class="wn-bar-track">
+              <div class="wn-bar-fill wn-pevc" style="width: 90%;"></div>
+              <span class="wn-bar-val">~52-57%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wn-source">Sources: World Bank, IMF World Economic Outlook, McKinsey Global Private Markets Report 2025.</div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="wn-col-right">
+      <div class="wn-section-header">Why Selection Drives Everything</div>
+      <div class="wn-chart-label">Manager Return Dispersion (Net IRR, Q1 vs. Q4)</div>
+
+      <div class="wn-dispersion-chart">
+        <!-- India PE -->
+        <div class="wn-dispersion-group">
+          <div class="wn-dispersion-label">India PE</div>
+          <div class="wn-dispersion-track-row">
+            <div class="wn-dispersion-track">
+              <!-- Range bar: Q4 at 6/35=17.1%, Q1 at 29/35=82.9% -->
+              <div class="wn-dispersion-range wn-maroon-range" style="left: 17.1%; right: 17.1%;"></div>
+              <!-- Q4 marker dot at 17.1% -->
+              <div class="wn-dispersion-marker-dot wn-dot-maroon" style="left: 17.1%;"></div>
+              <!-- Q1 marker dot at 29/35=82.9% -->
+              <div class="wn-dispersion-marker-dot wn-dot-maroon" style="left: 82.9%;"></div>
+            </div>
+            <div class="wn-spread wn-maroon-text">Spread: ~24 pp</div>
+          </div>
+          <div class="wn-dispersion-labels">
+            <span class="wn-dispersion-val wn-val-maroon" style="left: 17.1%;">~6%</span>
+            <span class="wn-dispersion-val wn-val-maroon" style="left: 82.9%;">~29%</span>
+          </div>
+        </div>
+
+        <!-- SEA PE -->
+        <div class="wn-dispersion-group">
+          <div class="wn-dispersion-label">SEA PE</div>
+          <div class="wn-dispersion-track-row">
+            <div class="wn-dispersion-track">
+              <!-- Range bar: Q4 at 8/35=22.9%, Q1 at 23/35=65.7% -->
+              <div class="wn-dispersion-range wn-maroon-range-light" style="left: 22.9%; right: 34.3%;"></div>
+              <!-- Q4 marker dot at 22.9% -->
+              <div class="wn-dispersion-marker-dot wn-dot-maroon-light" style="left: 22.9%;"></div>
+              <!-- Q1 marker dot at 23/35=65.7% -->
+              <div class="wn-dispersion-marker-dot wn-dot-maroon-light" style="left: 65.7%;"></div>
+            </div>
+            <div class="wn-spread wn-maroon-text">Spread: ~15 pp</div>
+          </div>
+          <div class="wn-dispersion-labels">
+            <span class="wn-dispersion-val wn-val-maroon" style="left: 22.9%;">~8%</span>
+            <span class="wn-dispersion-val wn-val-maroon" style="left: 65.7%;">~23%</span>
+          </div>
+        </div>
+
+        <!-- US PE -->
+        <div class="wn-dispersion-group">
+          <div class="wn-dispersion-label">US PE</div>
+          <div class="wn-dispersion-track-row">
+            <div class="wn-dispersion-track">
+              <!-- Range bar: Q4 at 11/35=31.4%, Q1 at 24/35=68.6% -->
+              <div class="wn-dispersion-range wn-gray-range" style="left: 31.4%; right: 31.4%;"></div>
+              <!-- Q4 marker dot at 31.4% -->
+              <div class="wn-dispersion-marker-dot wn-dot-gray" style="left: 31.4%;"></div>
+              <!-- Q1 marker dot at 24/35=68.6% -->
+              <div class="wn-dispersion-marker-dot wn-dot-gray" style="left: 68.6%;"></div>
+            </div>
+            <div class="wn-spread wn-muted-text">Spread: ~14 pp</div>
+          </div>
+          <div class="wn-dispersion-labels">
+            <span class="wn-dispersion-val wn-val-muted" style="left: 31.4%;">~11%</span>
+            <span class="wn-dispersion-val wn-val-muted" style="left: 68.6%;">~24%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="wn-dispersion-scale">
+        <span>0%</span>
+        <span>10%</span>
+        <span>20%</span>
+        <span>30%</span>
+        <span>35%</span>
+      </div>
+
+      <div class="wn-source">Sources: Cambridge Associates, Preqin, Bain India PE Report 2025. India/SEA ranges are illustrative based on available benchmarks.</div>
+    </div>
+  </div>
+
+  <!-- Bottom 4 blocks (2 per side) -->
+  <div class="wn-blocks animate-in stagger-4">
+    <!-- Block 1 - Left -->
+    <div class="wn-block">
+      <div class="wn-block-accent wn-accent-green"></div>
+      <div class="wn-block-content">
+        <h4 style="color:var(--green);">These are the world&rsquo;s most under-allocated investable markets.</h4>
+        <p>India and Southeast Asia together represent ~7% of global GDP but attract less than 5% of PE/VC flows, while the US captures ~52% from ~26% of GDP. The structural underweight persists even as both markets have reached institutional scale. Today, the opportunity set exists - the capital allocation hasn&rsquo;t followed.</p>
+      </div>
+    </div>
+    <!-- Block 3 - Right -->
+    <div class="wn-block">
+      <div class="wn-block-accent"></div>
+      <div class="wn-block-content">
+        <h4 style="color:var(--maroon);">Return dispersion is wider here, which makes manager selection materially more important.</h4>
+        <p>Return dispersion in India PE is ~24 pp and in Southeast Asia PE ~15 pp, versus ~14 pp in US PE. In markets where outcomes vary this widely, selection is not a secondary consideration. It sits at the core of the strategy.</p>
+      </div>
+    </div>
+    <!-- Block 2 - Left -->
+    <div class="wn-block">
+      <div class="wn-block-accent wn-accent-green"></div>
+      <div class="wn-block-content">
+        <h4 style="color:var(--green);">The infrastructure for LPs to access these markets systematically is still limited.</h4>
+        <p>Most institutional investors outside the region do not have the local networks, data infrastructure, or region-specific diligence frameworks needed to underwrite managers here with the same level of confidence they apply in more developed markets.</p>
+      </div>
+    </div>
+    <!-- Block 4 - Right -->
+    <div class="wn-block">
+      <div class="wn-block-accent"></div>
+      <div class="wn-block-content">
+        <h4 style="color:var(--maroon);">The highest-impact risks in these markets are invisible to standard LP diligence.</h4>
+        <p>In India and SEA, governance discipline and the reality behind value creation playbooks vary far more across managers than most LPs expect. Frameworks built for developed-market GPs don&rsquo;t surface these risks until it&rsquo;s too late.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span>Concept Document</span><div class="sep"></div>
+    <span>Confidential</span><div class="sep"></div>
+    <span>No Fund Vehicle Established</span>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+const REF_H = 810;
+
+const progress = document.getElementById('progress');
+for (let i = 0; i < total; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+  dot.dataset.slide = i;
+  dot.addEventListener('click', () => goTo(i));
+  progress.appendChild(dot);
+}
+
+const deck = document.getElementById('deck');
+const dots = document.querySelectorAll('.progress-dot');
+const counter = document.getElementById('slideCounter');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const navBar = document.getElementById('navBar');
+const navLogo = document.querySelector('.nav-logo');
+const keyHint = document.getElementById('keyHint');
+
+function updateLayout() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const scale = h / REF_H;
+  const refW = w / scale;
+  deck.style.width = (total * w) + 'px';
+  deck.style.height = h + 'px';
+  slides.forEach((s, i) => {
+    s.style.left = (i * w) + 'px';
+    s.style.width = refW + 'px';
+    s.style.height = REF_H + 'px';
+    s.style.transform = `scale(${scale})`;
+  });
+  deck.style.transform = `translateX(-${current * w}px)`;
+}
+updateLayout();
+window.addEventListener('resize', updateLayout);
+
+function goTo(index) {
+  if (index < 0 || index >= total) return;
+  current = index;
+  deck.style.transform = `translateX(-${current * window.innerWidth}px)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+  prevBtn.classList.toggle('disabled', current === 0);
+  nextBtn.classList.toggle('disabled', current === total - 1);
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  const isDark = slides[current].dataset.bg === 'dark';
+  navBar.classList.toggle('on-dark', isDark);
+  counter.classList.toggle('on-dark', isDark);
+  prevBtn.classList.toggle('on-dark', isDark);
+  nextBtn.classList.toggle('on-dark', isDark);
+  // No cover slides in this deck - always show full logo, never apply on-cover
+  navLogo.classList.remove('icon-mode');
+  navBar.classList.remove('on-cover');
+  keyHint.classList.add('hidden');
+}
+
+function navigate(dir) { goTo(current + dir); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+
+let touchX = 0;
+document.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].screenX; }, { passive: true });
+document.addEventListener('touchend', (e) => {
+  const diff = touchX - e.changedTouches[0].screenX;
+  if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+}, { passive: true });
+
+let wheelLock = false;
+document.addEventListener('wheel', (e) => {
+  if (wheelLock) return;
+  if (Math.abs(e.deltaY) > 30) {
+    wheelLock = true;
+    navigate(e.deltaY > 0 ? 1 : -1);
+    setTimeout(() => { wheelLock = false; }, 900);
+  }
+}, { passive: true });
+
+goTo(0);
+
+function downloadPDF() {
+  window.print();
+}
+
+// Print support
+const savedStyles = [];
+window.addEventListener('beforeprint', () => {
+  slides.forEach((s, i) => {
+    savedStyles[i] = s.getAttribute('style') || '';
+    s.removeAttribute('style');
+    s.classList.add('active');
+  });
+  savedStyles.deck = deck.getAttribute('style') || '';
+  deck.removeAttribute('style');
+});
+window.addEventListener('afterprint', () => {
+  slides.forEach((s, i) => {
+    if (savedStyles[i]) s.setAttribute('style', savedStyles[i]);
+    s.classList.toggle('active', i === current);
+  });
+  if (savedStyles.deck) deck.setAttribute('style', savedStyles.deck);
+  updateLayout();
+});
+</script>
+</body>
+</html>

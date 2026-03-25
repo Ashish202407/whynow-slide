@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why India &amp; SEA Now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gelasio:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ======================================================================
+   TOKENS & RESET
+   ====================================================================== */
+:root {
+  --maroon: #6B0A14;
+  --dark: #241818;
+  --cream: #F4F7F3;
+  --papaya: #FFF0D6;
+  --green: #1D3B29;
+  --white: #FFFFFF;
+  --text-primary: #241818;
+  --text-secondary: rgba(36, 24, 24, 0.72);
+  --text-muted: rgba(36, 24, 24, 0.50);
+  --border-light: rgba(36, 24, 24, 0.08);
+  --border-medium: rgba(36, 24, 24, 0.12);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar { display: none; }
+
+/* ======================================================================
+   SLIDE CONTAINER
+   ====================================================================== */
+.deck {
+  position: relative;
+  height: 100vh;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  transform-origin: top left;
+}
+
+/* ======================================================================
+   NAVIGATION
+   ====================================================================== */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  transition: all 0.5s ease;
+}
+.nav-logo {
+  transition: all 0.5s ease;
+  display: none;
+}
+.nav-logo img {
+  width: auto;
+  display: block;
+  transition: filter 0.5s ease, opacity 0.4s ease;
+}
+.logo-full { height: 38px; }
+.nav-bar.on-cover { padding: 36px 72px; }
+.nav-bar.on-cover .logo-full { height: 48px; }
+.logo-icon { height: 26px; display: none !important; }
+.nav-logo.icon-mode .logo-full { display: none !important; }
+.nav-logo.icon-mode .logo-icon { display: block !important; }
+.nav-bar.on-dark .nav-logo img { filter: brightness(0) invert(1); }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav-confidential {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.5s ease;
+}
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.progress-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border-medium);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+.progress-dot.active {
+  background: var(--maroon);
+  width: 20px;
+  border-radius: 3px;
+}
+.nav-arrows {
+  position: fixed;
+  bottom: 32px;
+  right: 48px;
+  z-index: 100;
+  display: flex;
+  gap: 10px;
+}
+.nav-arrow {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--dark);
+}
+.nav-arrow:hover {
+  background: var(--maroon);
+  border-color: var(--maroon);
+  color: white;
+  transform: scale(1.05);
+}
+.nav-arrow.disabled { opacity: 0.25; pointer-events: none; }
+.nav-arrow svg { width: 16px; height: 16px; }
+.slide-counter {
+  position: fixed;
+  bottom: 40px;
+  left: 48px;
+  z-index: 100;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  transition: color 0.5s ease;
+}
+.nav-bar.on-dark .nav-confidential { color: rgba(255,255,255,0.25); }
+.nav-bar.on-dark .progress-dot { background: rgba(255,255,255,0.12); }
+.nav-bar.on-dark .progress-dot.active { background: var(--papaya); }
+.slide-counter.on-dark { color: rgba(255,255,255,0.25); }
+.nav-arrow.on-dark {
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.7);
+}
+.nav-arrow.on-dark:hover {
+  background: var(--papaya);
+  border-color: var(--papaya);
+  color: var(--dark);
+}
+
+/* ======================================================================
+   ANIMATIONS
+   ====================================================================== */
+.animate-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.slide.active .animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.stagger-1 { transition-delay: 0.08s; }
+.stagger-2 { transition-delay: 0.18s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.42s; }
+.stagger-5 { transition-delay: 0.54s; }
+.stagger-6 { transition-delay: 0.66s; }
+.stagger-7 { transition-delay: 0.78s; }
+.stagger-8 { transition-delay: 0.9s; }
+
+/* ======================================================================
+   SHARED COMPONENTS
+   ====================================================================== */
+.accent-bar {
+  position: absolute;
+  left: 0; top: 0;
+  width: 4px; height: 100%;
+  background: var(--maroon);
+}
+.top-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--maroon);
+}
+.slide-header {
+  margin-bottom: 28px;
+}
+.slide-header h2 {
+  font-size: 28px;
+  font-weight: 500;
+  font-family: 'Gelasio', Georgia, serif;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.slide-header h2 span { color: var(--maroon); font-weight: 600; }
+.slide-header .sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+.header-divider {
+  height: 1px;
+  background: var(--border-light);
+  margin-bottom: 28px;
+}
+
+/* Slide backgrounds */
+.slide-light {
+  background: var(--white);
+  padding: 88px 100px 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Slide footer */
+.slide-footer {
+  position: absolute;
+  bottom: 24px;
+  left: 100px; right: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--text-muted);
+  z-index: 2;
+}
+.slide-footer .sep {
+  width: 1px; height: 8px;
+  background: var(--border-medium);
+}
+
+/* Download button */
+.nav-download {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border-medium);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-muted);
+}
+.nav-download:hover {
+  background: var(--maroon);
+  border-color: var(--maroon);
+  color: white;
+}
+.nav-download svg { width: 14px; height: 14px; }
+
+/* Keyboard hint */
+.keyboard-hint {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--text-muted);
+  opacity: 1;
+  transition: opacity 1s ease;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.keyboard-hint.hidden { opacity: 0; pointer-events: none; }
+.key-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 4px;
+  border: 1px solid var(--border-medium);
+  font-size: 9px;
+}
+
+/* ======================================================================
+   WHY NOW v5 SLIDE STYLES (wn5- prefix)
+   ====================================================================== */
+
+/* Slide-level overrides */
+.wn5-slide .slide-header { margin-bottom: 10px; }
+.wn5-slide .slide-header h2 { font-size: 30px; }
+.wn5-slide .header-divider { margin-bottom: 14px; }
+
+/* Title em styling - maroon italic */
+.wn5-slide .slide-header h2 em {
+  font-style: italic;
+  color: var(--maroon);
+  font-weight: 600;
+}
+
+/* Subtitle */
+.wn5-slide .slide-header .sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+/* Opening narrative paragraph */
+.wn5-narrative {
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 95%;
+  margin-bottom: 16px;
+}
+
+/* Triple Advantage Hero Metrics Panel */
+.wn5-triple-panel {
+  background: rgba(107,10,20,0.04);
+  border: 1px solid rgba(107,10,20,0.08);
+  border-radius: 14px;
+  padding: 22px 32px 20px;
+  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+.wn5-triple-col {
+  text-align: center;
+  padding: 0 20px;
+}
+.wn5-triple-col:not(:last-child) {
+  border-right: 1px solid rgba(107,10,20,0.10);
+}
+.wn5-triple-number {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--maroon);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.wn5-triple-title {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+.wn5-triple-sub {
+  font-size: 9.5px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+/* Feature cards row */
+.wn5-cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  margin-bottom: 14px;
+}
+.wn5-card {
+  background: transparent;
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 18px 20px 14px;
+}
+.wn5-card-header {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  display: inline-block;
+}
+.wn5-card-header-green {
+  color: var(--green);
+  border-bottom: 2px solid var(--green);
+}
+.wn5-card-header-maroon {
+  color: var(--maroon);
+  border-bottom: 2px solid var(--maroon);
+}
+
+/* Card tables */
+.wn5-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.wn5-table th {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 0 6px 6px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.wn5-table th:not(:first-child) {
+  text-align: center;
+  padding-left: 6px;
+}
+.wn5-table td {
+  font-size: 9.5px;
+  font-weight: 400;
+  color: var(--text-primary);
+  padding: 5px 6px 5px 0;
+  border-bottom: 1px solid rgba(36,24,24,0.04);
+  line-height: 1.4;
+}
+.wn5-table td:not(:first-child) {
+  text-align: center;
+  padding-left: 6px;
+}
+.wn5-table tr:last-child td {
+  border-bottom: none;
+}
+.wn5-table td:first-child {
+  font-weight: 500;
+}
+.wn5-highlight-green {
+  color: var(--green);
+  font-weight: 600 !important;
+}
+.wn5-highlight-maroon {
+  color: var(--maroon);
+  font-weight: 600 !important;
+}
+.wn5-source {
+  font-size: 7px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* Callout box */
+.wn5-callout {
+  background: rgba(107,10,20,0.04);
+  border: 1px solid rgba(107,10,20,0.08);
+  border-radius: 10px;
+  border-left: 4px solid var(--maroon);
+  padding: 14px 22px;
+  margin-bottom: 12px;
+}
+.wn5-callout-lead {
+  font-family: 'Gelasio', Georgia, serif;
+  font-style: italic;
+  font-size: 11.5px;
+  color: var(--maroon);
+  line-height: 1.55;
+  margin-bottom: 3px;
+}
+.wn5-callout-body {
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* Bottom blocks grid - 2x2 */
+.wn5-blocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 36px;
+  flex: none;
+}
+.wn5-block {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.wn5-block-accent {
+  width: 3px;
+  min-height: 24px;
+  border-radius: 2px;
+  background: var(--maroon);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.wn5-block-accent-green { background: var(--green); }
+.wn5-block-content {
+  flex: 1;
+  min-width: 0;
+}
+.wn5-block h4 {
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  margin-bottom: 4px;
+}
+.wn5-block p {
+  font-size: 9.5px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* ======================================================================
+   PRINT STYLES
+   ====================================================================== */
+@media print {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html, body {
+    overflow: visible !important;
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .nav-bar,
+  .nav-arrows,
+  .slide-counter,
+  .keyboard-hint,
+  .progress { display: none !important; }
+
+  .deck {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
+    transform: none !important;
+  }
+
+  .slide {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    height: 100vh !important;
+    transform: none !important;
+    overflow: hidden !important;
+    page-break-after: always;
+    break-after: page;
+    break-inside: avoid;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .slide:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  .animate-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="nav-bar" id="navBar">
+  <div class="nav-logo">
+    <!-- Logo hidden -->
+  </div>
+  <div class="nav-right" style="margin-left:auto;">
+    <button class="nav-download" onclick="downloadPDF()" title="Print / Save PDF">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
+    <div class="progress" id="progress"></div>
+  </div>
+</div>
+
+<div class="slide-counter" id="slideCounter">01 / 01</div>
+
+<div class="nav-arrows" id="navArrows">
+  <div class="nav-arrow disabled" id="prevBtn" onclick="navigate(-1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+  </div>
+  <div class="nav-arrow disabled" id="nextBtn" onclick="navigate(1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+</div>
+
+<div class="keyboard-hint" id="keyHint">
+  <span class="key-icon">&larr;</span><span class="key-icon">&rarr;</span> to navigate
+</div>
+
+<div class="deck" id="deck">
+
+<!-- == SLIDE 1: WHY INDIA & SEA NOW (v5) == -->
+<div class="slide slide-light wn5-slide active" data-bg="light">
+  <div class="accent-bar"></div><div class="top-line"></div>
+
+  <!-- 1. Header -->
+  <div class="slide-header animate-in stagger-1">
+    <h2>Why India &amp; SEA <em>Now</em></h2>
+    <div class="sub">A market that rewards disciplined selection and punishes passive allocation</div>
+  </div>
+  <div class="header-divider animate-in stagger-1"></div>
+
+  <!-- 2. Opening narrative paragraph -->
+  <div class="wn5-narrative animate-in stagger-2">India and Southeast Asia represent ~7% of global GDP but attract less than 5% of global PE/VC capital. The structural underweight is the widest of any major investable region - and it persists even as both markets have reached institutional depth. India now has 430+ fund managers (IVCA) and attracted $43B in 2024; Southeast Asia added $25B, a decade ago none of it exists. Today, the question is not whether to allocate - but who to back.</div>
+
+  <!-- 3. Triple Advantage Hero Metrics Panel -->
+  <div class="wn5-triple-panel animate-in stagger-3">
+    <div class="wn5-triple-col">
+      <div class="wn5-triple-number">1.5-2x</div>
+      <div class="wn5-triple-title">GDP Growth</div>
+      <div class="wn5-triple-sub">vs. global average</div>
+    </div>
+    <div class="wn5-triple-col">
+      <div class="wn5-triple-number">$59B</div>
+      <div class="wn5-triple-title">PE/VC Investments</div>
+      <div class="wn5-triple-sub">India &amp; SEA combined (2024)</div>
+    </div>
+    <div class="wn5-triple-col">
+      <div class="wn5-triple-number">~$39B</div>
+      <div class="wn5-triple-title">PE Exits</div>
+      <div class="wn5-triple-sub">India and SEA (2024)</div>
+    </div>
+  </div>
+
+  <!-- 4. Two feature cards side by side -->
+  <div class="wn5-cards-row animate-in stagger-4">
+
+    <!-- Left card: The Structural Opportunity -->
+    <div class="wn5-card">
+      <div class="wn5-card-header wn5-card-header-green">The Structural Opportunity</div>
+      <table class="wn5-table">
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th>GDP Share</th>
+            <th>PE/VC Share</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>India</td>
+            <td class="wn5-highlight-green">3.7%</td>
+            <td>~3%</td>
+          </tr>
+          <tr>
+            <td>Southeast Asia</td>
+            <td class="wn5-highlight-green">3.6%</td>
+            <td>~1-2%</td>
+          </tr>
+          <tr>
+            <td>United States</td>
+            <td>~26%</td>
+            <td class="wn5-highlight-maroon">~52-57%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="wn5-source">Source: World Bank, IMF, McKinsey 2025</div>
+    </div>
+
+    <!-- Right card: Why Selection Drives Everything -->
+    <div class="wn5-card">
+      <div class="wn5-card-header wn5-card-header-maroon">Why Selection Drives Everything</div>
+      <table class="wn5-table">
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th>Q1 (Top)</th>
+            <th>Q4 (Bottom)</th>
+            <th>Spread</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>India PE</td>
+            <td class="wn5-highlight-maroon">~29%</td>
+            <td>~6%</td>
+            <td class="wn5-highlight-maroon">~24 pp</td>
+          </tr>
+          <tr>
+            <td>SEA PE</td>
+            <td>~23%</td>
+            <td>~8%</td>
+            <td>~15 pp</td>
+          </tr>
+          <tr>
+            <td>US PE</td>
+            <td>~24%</td>
+            <td>~11%</td>
+            <td>~14 pp</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="wn5-source">Source: Cambridge Associates, Preqin, Bain 2025</div>
+    </div>
+  </div>
+
+  <!-- 5. Callout box -->
+  <div class="wn5-callout animate-in stagger-5">
+    <div class="wn5-callout-lead">In markets where the gap between top-quartile and bottom-quartile outcomes spans 24 percentage points, the selection process is not a step in the strategy. It is the strategy.</div>
+    <div class="wn5-callout-body">India PE dispersion of ~24 pp exceeds US PE at ~14 pp. Capital is concentrated - top 5 PE firms raised 37% of total capital, top 5 VC firms raised 50%. Disciplined selection is not optional here; it is the entire thesis.</div>
+  </div>
+
+  <!-- 6. Bottom points (1x2) -->
+  <div class="wn5-blocks animate-in stagger-6">
+    <!-- Left (green) -->
+    <div class="wn5-block">
+      <div class="wn5-block-accent wn5-block-accent-green"></div>
+      <div class="wn5-block-content">
+        <h4 style="color:var(--green);">The infrastructure for LPs to access these markets systematically is still limited.</h4>
+        <p>Most institutional investors outside the region do not have the local networks, data infrastructure, or region-specific diligence frameworks needed to underwrite managers here with the same level of confidence they apply in more developed markets.</p>
+      </div>
+    </div>
+    <!-- Right (maroon) -->
+    <div class="wn5-block">
+      <div class="wn5-block-accent"></div>
+      <div class="wn5-block-content">
+        <h4 style="color:var(--maroon);">The highest-impact risks in these markets are invisible to standard LP diligence.</h4>
+        <p>In India and SEA, governance discipline and the reality behind value creation playbooks vary far more across managers than most LPs expect. Frameworks built for developed-market GPs don&rsquo;t surface these risks until it&rsquo;s too late.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Footer -->
+  <div class="slide-footer">
+    <span>Concept Document</span><div class="sep"></div>
+    <span>Confidential</span><div class="sep"></div>
+    <span>No Fund Vehicle Established</span>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+const REF_H = 810;
+
+const progress = document.getElementById('progress');
+for (let i = 0; i < total; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+  dot.dataset.slide = i;
+  dot.addEventListener('click', () => goTo(i));
+  progress.appendChild(dot);
+}
+
+const deck = document.getElementById('deck');
+const dots = document.querySelectorAll('.progress-dot');
+const counter = document.getElementById('slideCounter');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const navBar = document.getElementById('navBar');
+const navLogo = document.querySelector('.nav-logo');
+const keyHint = document.getElementById('keyHint');
+
+function updateLayout() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const scale = h / REF_H;
+  const refW = w / scale;
+  deck.style.width = (total * w) + 'px';
+  deck.style.height = h + 'px';
+  slides.forEach((s, i) => {
+    s.style.left = (i * w) + 'px';
+    s.style.width = refW + 'px';
+    s.style.height = REF_H + 'px';
+    s.style.transform = `scale(${scale})`;
+  });
+  deck.style.transform = `translateX(-${current * w}px)`;
+}
+updateLayout();
+window.addEventListener('resize', updateLayout);
+
+function goTo(index) {
+  if (index < 0 || index >= total) return;
+  current = index;
+  deck.style.transform = `translateX(-${current * window.innerWidth}px)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+  prevBtn.classList.toggle('disabled', current === 0);
+  nextBtn.classList.toggle('disabled', current === total - 1);
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  const isDark = slides[current].dataset.bg === 'dark';
+  navBar.classList.toggle('on-dark', isDark);
+  counter.classList.toggle('on-dark', isDark);
+  prevBtn.classList.toggle('on-dark', isDark);
+  nextBtn.classList.toggle('on-dark', isDark);
+  navLogo.classList.remove('icon-mode');
+  navBar.classList.remove('on-cover');
+  keyHint.classList.add('hidden');
+}
+
+function navigate(dir) { goTo(current + dir); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+
+let touchX = 0;
+document.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].screenX; }, { passive: true });
+document.addEventListener('touchend', (e) => {
+  const diff = touchX - e.changedTouches[0].screenX;
+  if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+}, { passive: true });
+
+let wheelLock = false;
+document.addEventListener('wheel', (e) => {
+  if (wheelLock) return;
+  if (Math.abs(e.deltaY) > 30) {
+    wheelLock = true;
+    navigate(e.deltaY > 0 ? 1 : -1);
+    setTimeout(() => { wheelLock = false; }, 900);
+  }
+}, { passive: true });
+
+goTo(0);
+
+function downloadPDF() {
+  window.print();
+}
+
+// Print support
+const savedStyles = [];
+window.addEventListener('beforeprint', () => {
+  slides.forEach((s, i) => {
+    savedStyles[i] = s.getAttribute('style') || '';
+    s.removeAttribute('style');
+    s.classList.add('active');
+  });
+  savedStyles.deck = deck.getAttribute('style') || '';
+  deck.removeAttribute('style');
+});
+window.addEventListener('afterprint', () => {
+  slides.forEach((s, i) => {
+    if (savedStyles[i]) s.setAttribute('style', savedStyles[i]);
+    s.classList.toggle('active', i === current);
+  });
+  if (savedStyles.deck) deck.setAttribute('style', savedStyles.deck);
+  updateLayout();
+});
+</script>
+</body>
+</html>
