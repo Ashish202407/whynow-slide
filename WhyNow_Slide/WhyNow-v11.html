@@ -123,7 +123,8 @@ body::-webkit-scrollbar { display: none; }
   border: 1px solid var(--border-light);
   border-radius: 8px;
   border-left: 3px solid var(--maroon);
-  min-height: 76px;
+  min-height: 82px;
+  height: 82px;
   align-items: center;
 }
 .layer-row:nth-child(1) { border-left-color: var(--green); }
@@ -161,8 +162,10 @@ body::-webkit-scrollbar { display: none; }
 
 /* Col 2 & 3: Metrics */
 .layer-metrics {
-  display: flex; flex-direction: row; gap: 16px;
-  padding: 10px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 0;
+  padding: 10px 16px;
   height: 100%;
   align-items: center;
 }
@@ -171,15 +174,19 @@ body::-webkit-scrollbar { display: none; }
 }
 .metric {
   display: flex; flex-direction: column; align-items: flex-start;
-  min-width: 0;
+  min-width: 0; padding: 0 8px;
+}
+.metric-divider {
+  width: 1px; height: 28px;
+  background: var(--border-light); border-radius: 1px;
 }
 .metric-val {
   font-family: 'Gelasio', Georgia, serif;
   font-size: 20px; font-weight: 500; color: var(--maroon);
-  line-height: 1; margin-bottom: 2px; white-space: nowrap;
+  line-height: 1; margin-bottom: 3px; white-space: nowrap;
 }
 .metric-label {
-  font-size: 9px; font-weight: 300;
+  font-size: 8.5px; font-weight: 300;
   color: var(--text-secondary); line-height: 1.35;
 }
 
@@ -271,13 +278,17 @@ body::-webkit-scrollbar { display: none; }
       </div>
       <div class="layer-metrics">
         <div class="metric"><div class="metric-val">$4.5T</div><div class="metric-label">GDP, 4th globally</div></div>
+        <div class="metric-divider"></div>
         <div class="metric"><div class="metric-val">6.5%</div><div class="metric-label">growth (2025)</div></div>
-        <div class="metric"><div class="metric-val">3rd</div><div class="metric-label">largest by ~2028, surpassing Germany</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">3rd</div><div class="metric-label">by ~2028</div></div>
       </div>
       <div class="layer-metrics">
         <div class="metric"><div class="metric-val">$4.1T</div><div class="metric-label">GDP, 5th as bloc</div></div>
+        <div class="metric-divider"></div>
         <div class="metric"><div class="metric-val">4.5%</div><div class="metric-label">growth (2025)</div></div>
-        <div class="metric"><div class="metric-val">4th</div><div class="metric-label">largest economy by 2030</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">4th</div><div class="metric-label">by 2030</div></div>
       </div>
     </div>
 
@@ -290,12 +301,16 @@ body::-webkit-scrollbar { display: none; }
       </div>
       <div class="layer-metrics">
         <div class="metric"><div class="metric-val">28.4</div><div class="metric-label">median age</div></div>
-        <div class="metric"><div class="metric-val">68%</div><div class="metric-label">working-age population</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">68%</div><div class="metric-label">working-age</div></div>
+        <div class="metric-divider"></div>
         <div class="metric"><div class="metric-val">900M+</div><div class="metric-label">internet users</div></div>
       </div>
       <div class="layer-metrics">
         <div class="metric"><div class="metric-val">~30</div><div class="metric-label">median age</div></div>
-        <div class="metric"><div class="metric-val">~68%</div><div class="metric-label">working-age population</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">~68%</div><div class="metric-label">working-age</div></div>
+        <div class="metric-divider"></div>
         <div class="metric"><div class="metric-val">~500M</div><div class="metric-label">internet users</div></div>
       </div>
     </div>
@@ -308,14 +323,18 @@ body::-webkit-scrollbar { display: none; }
         <div class="layer-tag">World-leading digital rails that create investable companies</div>
       </div>
       <div class="layer-metrics">
-        <div class="metric"><div class="metric-val">~50%</div><div class="metric-label">of global real-time digital payments</div></div>
-        <div class="metric"><div class="metric-val">$402B</div><div class="metric-label">digital economy, $1T+ by 2030</div></div>
-        <div class="metric"><div class="metric-val">84%</div><div class="metric-label">of all payments now digital</div></div>
+        <div class="metric"><div class="metric-val">~50%</div><div class="metric-label">global real-time payments</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">$402B</div><div class="metric-label">digital economy</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">84%</div><div class="metric-label">payments now digital</div></div>
       </div>
       <div class="layer-metrics">
-        <div class="metric"><div class="metric-val">$30B+</div><div class="metric-label">AI infra committed (H1 2024)</div></div>
-        <div class="metric"><div class="metric-val">$300B+</div><div class="metric-label">digital economy GMV, 7x in a decade</div></div>
-        <div class="metric"><div class="metric-val">56%</div><div class="metric-label">digital payment share, up from 37%</div></div>
+        <div class="metric"><div class="metric-val">$30B+</div><div class="metric-label">AI infra (H1 '24)</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">$300B+</div><div class="metric-label">digital GMV, 7x in decade</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">56%</div><div class="metric-label">payments digital</div></div>
       </div>
     </div>
 
@@ -327,14 +346,18 @@ body::-webkit-scrollbar { display: none; }
         <div class="layer-tag">Dual engines - domestic demand and export strength simultaneously</div>
       </div>
       <div class="layer-metrics">
-        <div class="metric"><div class="metric-val">~60%</div><div class="metric-label">of GDP = domestic consumption</div></div>
-        <div class="metric"><div class="metric-val">3rd</div><div class="metric-label">largest consumer market globally</div></div>
+        <div class="metric"><div class="metric-val">~60%</div><div class="metric-label">GDP = consumption</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">3rd</div><div class="metric-label">consumer market</div></div>
+        <div class="metric-divider"></div>
         <div class="metric"><div class="metric-val">$780B+</div><div class="metric-label">goods &amp; services exports</div></div>
       </div>
       <div class="layer-metrics">
-        <div class="metric"><div class="metric-val">~55%</div><div class="metric-label">of GDP = domestic consumption</div></div>
-        <div class="metric"><div class="metric-val">680M</div><div class="metric-label">consumers, fastest-growing digital commerce</div></div>
-        <div class="metric"><div class="metric-val">$1.7T+</div><div class="metric-label">combined exports, China+1 hub</div></div>
+        <div class="metric"><div class="metric-val">~55%</div><div class="metric-label">GDP = consumption</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">680M</div><div class="metric-label">digital-first consumers</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">$1.7T+</div><div class="metric-label">exports, China+1 hub</div></div>
       </div>
     </div>
 
@@ -347,12 +370,16 @@ body::-webkit-scrollbar { display: none; }
       </div>
       <div class="layer-metrics">
         <div class="metric"><div class="metric-val">$56B</div><div class="metric-label">PE/VC investment (2024)</div></div>
-        <div class="metric"><div class="metric-val">$33B</div><div class="metric-label">exits, Asia's largest IPO market</div></div>
-        <div class="metric"><div class="metric-val">430+</div><div class="metric-label">managers, buyout share 51%</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">$33B</div><div class="metric-label">exits, largest IPO mkt</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">430+</div><div class="metric-label">managers, 51% buyout</div></div>
       </div>
       <div class="layer-metrics">
         <div class="metric"><div class="metric-val">$16B</div><div class="metric-label">PE, rebounded 60%</div></div>
-        <div class="metric"><div class="metric-val">M&amp;A</div><div class="metric-label">cross-border + public exits</div></div>
+        <div class="metric-divider"></div>
+        <div class="metric"><div class="metric-val">M&amp;A</div><div class="metric-label">cross-border + public</div></div>
+        <div class="metric-divider"></div>
         <div class="metric"><div class="metric-val">SG</div><div class="metric-label">regional capital hub</div></div>
       </div>
     </div>
