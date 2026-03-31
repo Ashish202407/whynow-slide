@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why India &amp; SEA Now - v10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gelasio:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   TOKENS & RESET
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --maroon: #6B0A14;
+  --dark: #241818;
+  --cream: #F4F7F3;
+  --papaya: #FFF0D6;
+  --green: #1D3B29;
+  --white: #FFFFFF;
+  --text-primary: #241818;
+  --text-secondary: rgba(36, 24, 24, 0.72);
+  --text-muted: rgba(36, 24, 24, 0.50);
+  --border-light: rgba(36, 24, 24, 0.08);
+  --border-medium: rgba(36, 24, 24, 0.12);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100%; overflow: hidden;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar { display: none; }
+
+/* ══════════════════════════════════════════════════════════
+   SLIDE CONTAINER & NAV
+   ══════════════════════════════════════════════════════════ */
+.deck { position: relative; height: 100vh; transition: transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+.slide { position: absolute; top: 0; overflow: hidden; transform-origin: top left; }
+.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px; transition: all 0.5s ease;
+}
+.nav-logo { display: none; }
+.nav-right { display: flex; align-items: center; gap: 28px; margin-left: auto; }
+.progress { display: flex; align-items: center; gap: 5px; }
+.progress-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border-medium); transition: all 0.4s ease; cursor: pointer;
+}
+.progress-dot.active { background: var(--maroon); width: 20px; border-radius: 3px; }
+.nav-arrows { position: fixed; bottom: 32px; right: 48px; z-index: 100; display: flex; gap: 10px; }
+.nav-arrow {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s ease; color: var(--dark);
+}
+.nav-arrow:hover { background: var(--maroon); border-color: var(--maroon); color: white; transform: scale(1.05); }
+.nav-arrow.disabled { opacity: 0.25; pointer-events: none; }
+.nav-arrow svg { width: 16px; height: 16px; }
+.slide-counter {
+  position: fixed; bottom: 40px; left: 48px; z-index: 100;
+  font-size: 11px; font-weight: 300; color: var(--text-muted); letter-spacing: 1px;
+}
+.nav-download {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1px solid var(--border-medium); background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s ease; color: var(--text-muted);
+}
+.nav-download:hover { background: var(--maroon); border-color: var(--maroon); color: white; }
+.nav-download svg { width: 14px; height: 14px; }
+.keyboard-hint {
+  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+  font-size: 11px; font-weight: 300; color: var(--text-muted);
+  opacity: 1; transition: opacity 1s ease; z-index: 100;
+  display: flex; align-items: center; gap: 6px;
+}
+.keyboard-hint.hidden { opacity: 0; pointer-events: none; }
+.key-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 4px;
+  border: 1px solid var(--border-medium); font-size: 9px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════════════════════ */
+.animate-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.slide.active .animate-in { opacity: 1; transform: translateY(0); }
+.stagger-1 { transition-delay: 0.08s; }
+.stagger-2 { transition-delay: 0.18s; }
+.stagger-3 { transition-delay: 0.30s; }
+.stagger-4 { transition-delay: 0.42s; }
+.stagger-5 { transition-delay: 0.54s; }
+.stagger-6 { transition-delay: 0.66s; }
+@keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ══════════════════════════════════════════════════════════
+   SHARED SLIDE COMPONENTS
+   ══════════════════════════════════════════════════════════ */
+.accent-bar { position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--maroon); }
+.top-line { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--maroon); }
+.slide-light { background: var(--white); padding: 88px 100px 60px; display: flex; flex-direction: column; }
+.slide-cream { background: var(--cream); padding: 88px 100px 60px; display: flex; flex-direction: column; }
+.deco-circle-dashed {
+  position: absolute; border: 1px dashed; border-radius: 50%;
+  pointer-events: none; animation: rotate-slow linear infinite;
+}
+.section-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--maroon); margin-bottom: 4px;
+}
+.slide-header { margin-bottom: 6px; }
+.slide-header h2 {
+  font-size: 28px; font-weight: 500;
+  font-family: 'Gelasio', Georgia, serif;
+  color: var(--text-primary); margin-bottom: 6px;
+}
+.slide-header h2 span { color: var(--maroon); font-weight: 600; }
+.slide-header h2 em { font-style: italic; color: var(--maroon); font-weight: 600; }
+.slide-header .sub {
+  font-size: 13px; font-weight: 300;
+  color: var(--text-secondary); line-height: 1.5;
+}
+.header-divider { height: 1px; background: var(--border-light); margin-bottom: 14px; }
+.slide-footer {
+  position: absolute; bottom: 24px; left: 100px; right: 100px;
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  font-size: 9px; font-weight: 400; color: var(--text-muted); z-index: 2;
+}
+.slide-footer .sep { width: 1px; height: 8px; background: var(--border-medium); }
+.source-note {
+  font-size: 8px; font-weight: 300; font-style: italic;
+  color: var(--text-muted); line-height: 1.5; margin-top: auto; padding-top: 4px;
+}
+
+/* Option pill */
+.option-pill {
+  display: inline-block; font-size: 8px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--maroon); background: rgba(107,10,20,0.06);
+  padding: 4px 12px; border-radius: 12px; margin-bottom: 6px;
+}
+
+/* Hero stats strip */
+.hero-strip {
+  display: flex; align-items: center;
+  padding: 16px 0 18px; flex: none;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 18px;
+}
+.hero-stat { flex: 1; text-align: center; padding: 0 16px; }
+.hero-stat:not(:last-child) { border-right: 1px solid var(--border-light); }
+.hero-val {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 30px; font-weight: 500;
+  color: var(--maroon); line-height: 1; margin-bottom: 6px;
+}
+.hero-label {
+  font-size: 8px; font-weight: 500; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--text-muted); line-height: 1.35;
+}
+
+/* Intro paragraph with accent bar */
+.intro-para {
+  position: relative;
+  padding: 12px 18px 12px 22px;
+  border-radius: 10px;
+  background: rgba(244,247,243,0.5);
+  border: 1px solid var(--border-light);
+  margin-bottom: 12px;
+  flex: none;
+  font-size: 10.5px; font-weight: 300;
+  line-height: 1.65; color: var(--text-secondary);
+}
+.slide-cream .intro-para { background: rgba(255,255,255,0.5); }
+.intro-para::before {
+  content: '';
+  position: absolute; left: 0; top: 10px; bottom: 10px;
+  width: 3px; border-radius: 0 2px 2px 0; background: var(--maroon);
+}
+
+/* Callout box */
+.callout-box {
+  background: rgba(107,10,20,0.04);
+  border: 1px solid rgba(107,10,20,0.08);
+  border-radius: 10px; border-left: 4px solid var(--maroon);
+  padding: 14px 22px; flex: none;
+}
+.callout-box p {
+  font-size: 10.5px; font-weight: 400;
+  color: var(--text-primary); line-height: 1.6;
+}
+.callout-box strong { font-weight: 600; }
+
+/* ══════════════════════════════════════════════════════════
+   OPTION 1: BUILT DIFFERENT
+   ══════════════════════════════════════════════════════════ */
+.o1-diffs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 22px;
+  flex: none;
+  align-items: stretch;  /* all cards same height */
+}
+.o1-card {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 20px 22px 18px;
+  border-top: 3px solid var(--maroon);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  display: flex; flex-direction: column;
+}
+.o1-card:hover {
+  box-shadow: 0 6px 24px rgba(107,10,20,0.07);
+  transform: translateY(-2px);
+}
+.o1-num {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 36px; font-weight: 400;
+  color: rgba(36,24,24,0.07); line-height: 1;
+  margin-bottom: 1px;  /* 3px more than before (-2px was old) */
+}
+.o1-title {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 14px; font-weight: 500;
+  color: var(--text-primary); margin-bottom: 5px; line-height: 1.35;
+}
+.o1-sub {
+  font-size: 9.5px; font-weight: 400;
+  color: var(--text-muted); font-style: italic;
+  margin-bottom: 14px; line-height: 1.5;
+}
+.o1-items {
+  display: flex; flex-direction: column; gap: 10px;
+  flex: 1;  /* push items to fill card equally */
+}
+.o1-item { display: flex; gap: 10px; align-items: flex-start; }
+.o1-accent {
+  width: 3px; min-height: 22px; border-radius: 2px;
+  background: var(--maroon); flex-shrink: 0; margin-top: 2px;
+}
+.o1-text {
+  font-size: 9.5px; font-weight: 300;
+  line-height: 1.55; color: var(--text-secondary);
+}
+.o1-text strong { font-weight: 500; color: var(--text-primary); }
+
+/* Highlighted takeaway inside card (no accent bar) */
+.o1-highlight {
+  background: rgba(107,10,20,0.05);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 9.5px; font-weight: 400;
+  line-height: 1.55; color: var(--maroon);
+  font-style: italic;
+}
+
+/* Closing box - tight to cards */
+.o1-closing {
+  background: rgba(107,10,20,0.04);
+  border: 1px solid rgba(107,10,20,0.08);
+  border-radius: 12px; padding: 14px 28px; text-align: center;
+  margin-top: 5px;  /* 5px gap below cards */
+  flex: none;
+}
+.o1-closing p {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 11px; font-style: italic;
+  color: var(--maroon); line-height: 1.65;
+}
+
+/* ══════════════════════════════════════════════════════════
+   OPTION 2: THREE LAYERS OF OPPORTUNITY (redesigned)
+   ══════════════════════════════════════════════════════════ */
+.o3-layers { display: flex; flex-direction: column; gap: 7px; flex: none; }
+.o3-layer {
+  display: grid;
+  grid-template-columns: 180px 0.7fr 1.3fr;
+  gap: 24px;
+  padding: 16px 22px;
+  align-items: start;
+  background: rgba(244,247,243,0.55);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  border-left: 3px solid var(--maroon);
+  min-height: 130px;
+}
+.o3-layer:first-child { border-left-color: var(--green); }
+.o3-layer:last-child { border-left-color: var(--green); }
+
+/* Col 1: Label block */
+.o3-label-col {
+  display: flex; flex-direction: column; height: 100%;
+}
+.o3-label-col .o3-layer-title { margin-top: auto; }
+
+.o3-pill {
+  display: inline-block; font-size: 9.5px; font-weight: 600;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--white); background: var(--maroon);
+  padding: 4px 10px; border-radius: 3px; margin-bottom: 7px;
+}
+.o3-pill.green { background: var(--green); }
+.o3-layer-title {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 15px; font-weight: 500;
+  color: var(--text-primary); margin-bottom: 4px; line-height: 1.3;
+}
+.o3-layer-horizon {
+  font-size: 12.5px; font-weight: 400;
+  color: var(--text-muted); font-style: italic;
+}
+
+/* Col 2: Metrics - horizontal row */
+.o3-metrics-col {
+  display: flex; flex-direction: row; gap: 18px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+.o3-metric {
+  display: flex; flex-direction: column; align-items: flex-start;
+}
+.o3-metric-val {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 23px; font-weight: 500; color: var(--maroon); line-height: 1;
+  margin-bottom: 3px;
+}
+.o3-metric-label {
+  font-size: 12px; font-weight: 400; color: var(--text-muted);
+}
+
+/* Col 3: Bullets */
+.o3-bullets-col {
+  display: flex; flex-direction: column; gap: 8px;
+  padding-top: 0;
+}
+.o3-bullet { display: flex; gap: 8px; align-items: flex-start; }
+.o3-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--maroon); flex-shrink: 0; margin-top: 6px;
+}
+.o3-dot.green { background: var(--green); }
+.o3-bullet-text {
+  font-size: 10px; font-weight: 300;
+  line-height: 1.6; color: var(--text-secondary);
+}
+.o3-takeaway {
+  font-size: 13.5px; font-weight: 400;
+  color: var(--text-primary); line-height: 1.6;
+  text-align: center; padding: 6px 20px 0;
+  flex: none;
+  margin-top: -2px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SLIDE 3: PRIVATE CAPITAL'S STRUCTURAL ADVANTAGE (s4n template)
+   ══════════════════════════════════════════════════════════ */
+.s3-slide .slide-header { margin-bottom: 14px; }
+.s3-slide .slide-header h2 { font-size: 26px; }
+.s3-slide .header-divider { margin-bottom: 0; }
+.s3-intro {
+  font-size: 11px; font-weight: 300; line-height: 1.7;
+  color: var(--text-secondary); margin-top: 10px; flex: none;
+}
+.s3-panel {
+  margin-top: 20px; padding: 22px 32px 20px;
+  border-radius: 14px;
+  background: rgba(107,10,20,0.04);
+  border: 1px solid rgba(107,10,20,0.08); flex: none;
+}
+.s3-triple { display: flex; justify-content: center; gap: 0; }
+.s3-triple-col { flex: 1; text-align: center; padding: 0 24px; }
+.s3-triple-col:not(:last-child) { border-right: 1px solid rgba(107,10,20,0.10); }
+.s3-triple-num {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 30px; font-weight: 600; color: var(--maroon);
+  line-height: 1; margin-bottom: 6px;
+}
+.s3-triple-title {
+  font-size: 10px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px;
+}
+.s3-triple-sub {
+  font-size: 9.5px; font-weight: 300; color: var(--text-secondary); line-height: 1.45;
+}
+.s3-panel-divider { height: 1px; background: rgba(107,10,20,0.10); margin: 16px 0 12px; }
+.s3-panel-footer {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 16px; font-weight: 700; color: var(--maroon);
+  text-align: center; letter-spacing: 0.3px;
+}
+.s3-vline {
+  width: 1.5px; height: 18px;
+  background: linear-gradient(to bottom, rgba(107,10,20,0.22), rgba(107,10,20,0.04));
+  margin: 4px auto; border-radius: 1px; flex: none;
+}
+.s3-center-label {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 14px; font-weight: 600; color: var(--maroon);
+  text-align: center; margin-bottom: 12px;
+}
+.s3-takeaway-row { display: flex; gap: 0; flex: none; }
+.s3-take-col { flex: 1; }
+.s3-take-col:first-child { padding-right: 28px; }
+.s3-take-col:last-child { padding-left: 28px; border-left: 1px solid var(--border-light); }
+.s3-take-num {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 36px; font-weight: 600; color: var(--maroon);
+  line-height: 1; margin-bottom: 4px;
+}
+.s3-take-title {
+  font-size: 11px; font-weight: 500; color: var(--text-primary); margin-bottom: 8px;
+}
+.s3-take-lead {
+  font-size: 9.5px; font-weight: 400; line-height: 1.55;
+  color: var(--text-secondary); margin-bottom: 8px;
+}
+.s3-take-bullets {
+  list-style: none; display: flex; flex-direction: column; gap: 5px;
+}
+.s3-take-bullets li {
+  display: flex; gap: 7px; align-items: flex-start;
+  font-size: 9.5px; font-weight: 300; line-height: 1.5; color: var(--text-secondary);
+}
+.s3-take-bullets li::before {
+  content: ''; width: 0; height: 0;
+  border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--maroon); margin-top: 3px; flex-shrink: 0;
+}
+.s3-pullquote {
+  margin-top: 16px; padding: 14px 22px;
+  background: rgba(107,10,20,0.04);
+  border: 1px solid rgba(107,10,20,0.08);
+  border-radius: 10px; border-left: 4px solid var(--maroon); flex: none;
+}
+.s3-pullquote-text {
+  font-size: 11px; font-weight: 400; font-style: italic;
+  font-family: 'Gelasio', Georgia, serif;
+  color: var(--text-primary); line-height: 1.65;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SLIDE 4: TWO ENGINES, ONE REGION (s2n template)
+   ══════════════════════════════════════════════════════════ */
+.s4-slide .slide-header { margin-bottom: 14px; }
+.s4-slide .slide-header h2 { font-size: 26px; }
+.s4-slide .header-divider { margin-bottom: 0; }
+.s4-intro {
+  font-size: 11px; font-weight: 300; line-height: 1.7;
+  color: var(--text-secondary); max-width: 95%; margin-top: 10px;
+  margin-bottom: 6px; flex: none;
+}
+.s4-cards-row {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 12px; margin-top: 16px; flex: none;
+}
+.s4-country-card {
+  padding: 16px 12px 12px; border-radius: 12px;
+  border: 1px solid var(--border-light); background: var(--cream);
+  text-align: center; display: flex; flex-direction: column; align-items: center;
+  transition: all 0.3s ease;
+}
+.s4-country-card:hover {
+  border-color: rgba(107,10,20,0.15);
+  box-shadow: 0 4px 16px rgba(107,10,20,0.04);
+  transform: translateY(-2px);
+}
+.s4-country-card.s4-india-card {
+  background: var(--maroon); border-color: var(--maroon);
+}
+.s4-country-card.s4-india-card:hover {
+  box-shadow: 0 4px 20px rgba(107,10,20,0.25);
+}
+.s4-card-name {
+  font-size: 8px; font-weight: 500; letter-spacing: 0.8px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;
+}
+.s4-india-card .s4-card-name { color: rgba(255,255,255,0.7); }
+.s4-card-num {
+  font-family: 'Gelasio', Georgia, serif;
+  font-size: 26px; font-weight: 600; color: var(--text-primary);
+  line-height: 1; margin-bottom: 3px;
+}
+.s4-india-card .s4-card-num { font-size: 30px; color: var(--white); }
+.s4-card-sub {
+  font-size: 8.5px; font-weight: 300; color: var(--text-muted); margin-bottom: 6px;
+}
+.s4-india-card .s4-card-sub { color: rgba(255,255,255,0.65); }
+.s4-card-line {
+  width: 100%; height: 1px; background: var(--border-light); margin-top: auto;
+}
+.s4-india-card .s4-card-line { background: rgba(255,255,255,0.15); }
+.s4-card-tag {
+  font-size: 7.5px; font-weight: 400; font-style: italic;
+  color: var(--text-secondary); margin-top: 6px; line-height: 1.4;
+}
+.s4-india-card .s4-card-tag { color: rgba(255,255,255,0.55); }
+.s4-vline {
+  width: 1.5px; height: 20px;
+  background: linear-gradient(to bottom, rgba(107,10,20,0.22), rgba(107,10,20,0.04));
+  margin: 12px auto; border-radius: 1px; flex: none;
+}
+.s4-blocks-row { display: flex; gap: 0; flex: none; }
+.s4-block-col { flex: 1; padding: 0 24px; }
+.s4-block-col:first-child { padding-left: 0; }
+.s4-block-col:last-child { padding-right: 0; }
+.s4-block-col:not(:last-child) { border-right: 1px solid var(--border-light); }
+.s4-block-heading {
+  font-size: 11px; font-weight: 600; color: var(--text-primary);
+  margin-bottom: 6px; line-height: 1.4;
+}
+.s4-block-body {
+  font-size: 9.5px; font-weight: 300; line-height: 1.6; color: var(--text-secondary);
+}
+
+/* ══════════════════════════════════════════════════════════
+   PRINT
+   ══════════════════════════════════════════════════════════ */
+@media print {
+  @page { size: landscape; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html, body { overflow: visible !important; background: white !important; }
+  .nav-bar, .nav-arrows, .slide-counter, .keyboard-hint, .progress { display: none !important; }
+  .deck { position: static !important; width: auto !important; height: auto !important; display: block !important; transform: none !important; }
+  .slide {
+    position: relative !important; left: auto !important; top: auto !important;
+    width: 100% !important; height: 100vh !important; transform: none !important;
+    overflow: hidden !important; page-break-after: always; break-after: page; break-inside: avoid;
+  }
+  .slide:last-child { page-break-after: auto; }
+  .animate-in { opacity: 1 !important; transform: none !important; }
+  .deco-circle-dashed { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="nav-bar" id="navBar">
+  <div class="nav-logo"></div>
+  <div class="nav-right">
+    <button class="nav-download" onclick="window.print()" title="Print / Save PDF">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
+    <div class="progress" id="progress"></div>
+  </div>
+</div>
+<div class="slide-counter" id="slideCounter">01 / 04</div>
+<div class="nav-arrows" id="navArrows">
+  <div class="nav-arrow disabled" id="prevBtn" onclick="navigate(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></div>
+  <div class="nav-arrow" id="nextBtn" onclick="navigate(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+</div>
+<div class="keyboard-hint" id="keyHint"><span class="key-icon">&larr;</span><span class="key-icon">&rarr;</span> to navigate between slides</div>
+
+<div class="deck" id="deck">
+
+<!-- ══════════════════════════════════════════════════════════
+     OPTION 1: BUILT DIFFERENT (cream bg)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide slide-cream active" data-bg="light">
+  <div class="accent-bar"></div><div class="top-line"></div>
+  <div class="deco-circle-dashed" style="top:-10%;right:-5%;width:40vh;height:40vh;border-color:rgba(107,10,20,0.10);animation-duration:95s;"></div>
+  <div class="deco-circle-dashed" style="bottom:-20%;right:10%;width:30vh;height:30vh;border-color:rgba(107,10,20,0.07);animation-duration:130s;animation-direction:reverse;"></div>
+
+  <div class="slide-header animate-in stagger-1">
+    <h2>Why India &amp; Southeast Asia <em>Now</em></h2>
+    <div class="sub">A fundamentally different growth story - and a structural private capital opportunity</div>
+  </div>
+  <div class="header-divider animate-in stagger-1"></div>
+
+  <div class="intro-para animate-in stagger-2">India and Southeast Asia are building economies that are digitally native, consumption-driven, and demographically compounding. These structural characteristics create a private capital opportunity set unlike any other region today.</div>
+
+  <div class="o1-diffs animate-in stagger-3">
+    <!-- 01 Digitally Native -->
+    <div class="o1-card">
+      <div class="o1-num">01</div>
+      <div class="o1-title">Digitally Native from the Ground Up</div>
+      <div class="o1-sub">Digital infrastructure arrived at population scale before middle-income levels - inverting the sequence that played out in every other major economy.</div>
+      <div class="o1-items">
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>India's UPI</strong> handles more daily transactions than Visa - ~half of all real-time digital payments globally. 500M+ people entered the formal financial system through digital rails in under a decade.</div></div>
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>SEA's digital economy</strong> surpassed $300B GMV in 2025 - a 7x increase in a decade. AI infrastructure alone attracted $2.3B+ in H1 2025.</div></div>
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>Open architecture matters.</strong> India's stack (Aadhaar, UPI, Account Aggregator) is interoperable and public. SEA is building toward regional integration through the ASEAN Digital Economy Framework Agreement, covering 680M people.</div></div>
+        <div class="o1-highlight">This creates an investable universe of digitally native companies - in fintech, logistics, healthtech, SaaS - that could not have existed here a decade ago.</div>
+      </div>
+    </div>
+
+    <!-- 02 Consumption-Driven -->
+    <div class="o1-card">
+      <div class="o1-num">02</div>
+      <div class="o1-title">Consumption-Driven, Not Export-Dependent</div>
+      <div class="o1-sub">Growth is endogenous - powered by domestic demand and a formalising economy, not external trade cycles.</div>
+      <div class="o1-items">
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>India's engine is internal.</strong> Private consumption drives ~60% of GDP. Per capita income has doubled in a decade. The middle class is projected to exceed 500M by 2030 - unlocking new consumption categories at scale.</div></div>
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>Formalisation expands the investable economy.</strong> GST, digital payments, and Aadhaar are pulling vast informal sectors into formal, financeable channels. Every business that formalises becomes bankable and investable.</div></div>
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>Southeast Asia adds breadth and diversification.</strong> 680 million people across six high-growth economies. Indonesia, Vietnam, Philippines, and Thailand are each growing 4-5% annually. The region is increasingly consumption-led, not just an export base.</div></div>
+        <div class="o1-highlight">This engine is self-sustaining - resilient to trade disruption and powered by forces that are domestic, structural, and still in early innings.</div>
+      </div>
+    </div>
+
+    <!-- 03 Demographics -->
+    <div class="o1-card">
+      <div class="o1-num">03</div>
+      <div class="o1-title">Demographically Compounding</div>
+      <div class="o1-sub">The workforce expands for decades, not a single cycle - getting more productive, more urban, and more connected simultaneously.</div>
+      <div class="o1-items">
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>The numbers are unmatched.</strong> 2.1 billion people across India and Southeast Asia, with a combined median age of approximately 29 - the youngest major-economy workforce globally, while developed economies contract.</div></div>
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>Dependency ratio at historic lows.</strong> India's ratio will remain at its lowest point until the 2040s - the structural condition that powered prior high-growth phases in Japan, Korea, and elsewhere. India's window is wider.</div></div>
+        <div class="o1-item"><div class="o1-accent"></div><div class="o1-text"><strong>Urbanisation has decades of headroom.</strong> India at ~37%, well below the 57% global average. Each point of urban migration drives demand for housing, healthcare, financial services - and creates companies that need growth capital.</div></div>
+        <div class="o1-highlight">SEA adds 700M people with a median age of ~30 to the same structural story. The combined demographic tailwind extends well beyond any single fund.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="o1-closing animate-in stagger-4">
+    <p>These are not cyclical tailwinds. They compound across decades - driven by forces that do not reverse. Demographics, digitization, and domestic consumption reinforce each other, creating a structural growth trajectory that is both durable and still in its early chapters.</p>
+  </div>
+
+  <div class="source-note animate-in stagger-5">Sources: Bain India PE Report 2025, IMF, World Bank, NPCI, e-Conomy SEA 2024, UNFPA, ADB Asian Development Outlook 2025.</div>
+  <div class="slide-footer"><span>Concept Document</span><div class="sep"></div><span>Confidential</span><div class="sep"></div><span>No Fund Vehicle Established</span></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     OPTION 2: THREE LAYERS OF OPPORTUNITY (light bg)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide slide-light" data-bg="light">
+  <div class="accent-bar"></div><div class="top-line"></div>
+  <div class="deco-circle-dashed" style="bottom:-16%;right:-3%;width:38vh;height:38vh;border-color:rgba(107,10,20,0.10);animation-duration:110s;"></div>
+
+  <div class="slide-header animate-in stagger-1">
+    <h2>Why India &amp; Southeast Asia <em>Now</em></h2>
+    <div class="sub">An opportunity that compounds across time horizons</div>
+  </div>
+  <div class="header-divider animate-in stagger-1"></div>
+
+  <div class="o3-layers animate-in stagger-2">
+    <!-- Layer 1: Foundation -->
+    <div class="o3-layer">
+      <div class="o3-label-col">
+        <div class="o3-pill green">Layer 1: The Foundation</div>
+        <div class="o3-layer-title">Demographics &amp; Consumption</div>
+        <div class="o3-layer-horizon">Multi-generational</div>
+      </div>
+      <div class="o3-metrics-col">
+        <div class="o3-metric"><div class="o3-metric-val">2.1B</div><div class="o3-metric-label">people</div></div>
+        <div class="o3-metric"><div class="o3-metric-val">~29</div><div class="o3-metric-label">median age</div></div>
+        <div class="o3-metric"><div class="o3-metric-val">~37%</div><div class="o3-metric-label">India urbanisation</div></div>
+      </div>
+      <div class="o3-bullets-col">
+        <div class="o3-bullet"><div class="o3-dot green"></div><div class="o3-bullet-text">More than a quarter of the world's population, with the youngest major-economy workforce. Working-age population grows through the 2050s while developed economies and major Asian peers contract.</div></div>
+        <div class="o3-bullet"><div class="o3-dot green"></div><div class="o3-bullet-text">Per capita income is doubling within the decade, the inflection point where consumption categories open at scale. India's middle class projected to exceed 500M by 2030.</div></div>
+        <div class="o3-bullet"><div class="o3-dot green"></div><div class="o3-bullet-text">India at ~37% urbanisation vs. 57% globally. Each point of migration drives demand and creates companies that need growth capital. SEA adds 680M people across six economies growing 4-5% annually.</div></div>
+      </div>
+    </div>
+
+    <!-- Layer 2: Accelerant -->
+    <div class="o3-layer">
+      <div class="o3-label-col">
+        <div class="o3-pill">Layer 2: The Accelerant</div>
+        <div class="o3-layer-title">Digital Infrastructure &amp; New Business Models</div>
+        <div class="o3-layer-horizon">Current transformation</div>
+      </div>
+      <div class="o3-metrics-col">
+        <div class="o3-metric"><div class="o3-metric-val">20B+</div><div class="o3-metric-label">UPI txns/month</div></div>
+        <div class="o3-metric"><div class="o3-metric-val">$300B+</div><div class="o3-metric-label">SEA digital economy</div></div>
+        <div class="o3-metric"><div class="o3-metric-val">7x</div><div class="o3-metric-label">SEA revenue since '15</div></div>
+      </div>
+      <div class="o3-bullets-col">
+        <div class="o3-bullet"><div class="o3-dot"></div><div class="o3-bullet-text">India's UPI processes ~half of global real-time payment volume. 500M+ people invisible to formal finance a decade ago are now bankable, insurable, lendable. This is what creates PE/VC deal flow at scale.</div></div>
+        <div class="o3-bullet"><div class="o3-dot"></div><div class="o3-bullet-text">SEA's digital economy surpassed $300B GMV in 2025, a 7x increase in a decade. The ASEAN Digital Economy Framework Agreement, due 2026, will create the first region-wide digital trade framework for 680M people.</div></div>
+        <div class="o3-bullet"><div class="o3-dot"></div><div class="o3-bullet-text">Open, interoperable digital rails enable companies in fintech, logistics, healthtech, and SaaS that could not have existed here a decade ago. The infrastructure is built. The company creation is underway.</div></div>
+      </div>
+    </div>
+
+    <!-- Layer 3: Ecosystem -->
+    <div class="o3-layer">
+      <div class="o3-label-col">
+        <div class="o3-pill green">Layer 3: The Ecosystem</div>
+        <div class="o3-layer-title">PE/VC Market Maturity</div>
+        <div class="o3-layer-horizon">Institutional readiness</div>
+      </div>
+      <div class="o3-metrics-col">
+        <div class="o3-metric"><div class="o3-metric-val">$56B</div><div class="o3-metric-label">India PE/VC (2024)</div></div>
+        <div class="o3-metric"><div class="o3-metric-val">$33B</div><div class="o3-metric-label">India exits (2024)</div></div>
+        <div class="o3-metric"><div class="o3-metric-val">430+</div><div class="o3-metric-label">fund managers</div></div>
+      </div>
+      <div class="o3-bullets-col">
+        <div class="o3-bullet"><div class="o3-dot green"></div><div class="o3-bullet-text">India PE/VC reached $56B in 2024, second-highest on record. 2025 is tracking 54% higher. Exits hit $33B and India became Asia's largest IPO market by deal count.</div></div>
+        <div class="o3-bullet"><div class="o3-dot green"></div><div class="o3-bullet-text">The market has matured beyond venture. Buyout share rose to 51% of PE deal value, up from 37% in 2022. Record domestic fundraising (ChrysCapital $2.1B, Kedaara $1.7B) signals locally generated depth.</div></div>
+        <div class="o3-bullet"><div class="o3-dot green"></div><div class="o3-bullet-text">SEA PE rebounded 60% to $16B. Strategic M&amp;A from Japan, Korea, and intra-ASEAN buyers providing exit routes alongside public markets. Capital flows in both directions.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="o3-takeaway animate-in stagger-3">The structural foundations compound over decades. The digital transformation is creating investable companies now. Private capital allocation has not yet followed.</div>
+
+  <div class="source-note animate-in stagger-4">Sources: Bain India PE Report 2025, IMF, World Bank, NPCI, e-Conomy SEA 2024, CB Insights, MeitY, IVCA, UNFPA.</div>
+  <div class="slide-footer"><span>Concept Document</span><div class="sep"></div><span>Confidential</span><div class="sep"></div><span>No Fund Vehicle Established</span></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 3: PRIVATE CAPITAL'S STRUCTURAL ADVANTAGE (cream bg)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide slide-cream s3-slide" data-bg="light">
+  <div class="accent-bar"></div><div class="top-line"></div>
+
+  <div class="slide-header animate-in stagger-1">
+    <h2>Why India &amp; Southeast Asia <em>Now</em></h2>
+    <div class="sub">Why PE and VC are uniquely positioned to capture structural growth in India and Southeast Asia</div>
+  </div>
+  <div class="header-divider"></div>
+
+  <p class="s3-intro animate-in stagger-2">India and Southeast Asia are not compelling simply because they are growing fast. They are compelling because growth is happening alongside digitisation, formalisation, and a maturing manager ecosystem. That creates the conditions private capital performs best in: fragmented sectors, founder-led businesses that need institutionalisation, and room for operational value creation before outcomes are priced in public markets.</p>
+
+  <div class="s3-panel animate-in stagger-3">
+    <div class="s3-panel-footer">The Triple Advantage</div>
+    <div class="s3-panel-divider"></div>
+    <div class="s3-triple">
+      <div class="s3-triple-col">
+        <div class="s3-triple-num">2-3x</div>
+        <div class="s3-triple-title">GDP Growth vs. Global Average</div>
+        <div class="s3-triple-sub">Structural demand growth creates room for long-duration company building.</div>
+      </div>
+      <div class="s3-triple-col">
+        <div class="s3-triple-num">500+</div>
+        <div class="s3-triple-title">Active PE/VC Managers</div>
+        <div class="s3-triple-sub">The ecosystem is deep enough to support institutional portfolio construction.</div>
+      </div>
+      <div class="s3-triple-col">
+        <div class="s3-triple-num">$33B</div>
+        <div class="s3-triple-title">India PE/VC Exits (2024)</div>
+        <div class="s3-triple-sub">Exit markets are increasingly able to return capital, not just absorb it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s3-vline animate-in stagger-4"></div>
+
+  <div class="s3-takeaway-row animate-in stagger-5">
+    <div class="s3-take-col">
+      <div class="s3-take-title">The market has reached institutional depth</div>
+      <div class="s3-take-lead">India PE/VC investment reached $56B in 2024 and deal count hit a decade high in 2025. Over 430 active fund managers. Buyout share has risen to 51% of PE deal value, up from 37% in 2022, reflecting maturation beyond venture. Record domestic fundraising (ChrysCapital $2.1B, Kedaara $1.7B) signals depth that is locally generated, not dependent on foreign sentiment. SEA PE rebounded 60% to $16B, with strategic buyers from Japan, Korea, and across ASEAN diversifying exit routes. A decade ago, building a diversified private-markets program here was not possible. Today, the opportunity set exists at sufficient depth.</div>
+    </div>
+    <div class="s3-take-col">
+      <div class="s3-take-title">The timing rewards allocators who build programs now</div>
+      <div class="s3-take-lead">Digital infrastructure has reached population scale. India&rsquo;s UPI processes ~half of global real-time payment volume. 500M+ people who were outside the formal financial system a decade ago are now bankable, insurable, and lendable. SEA&rsquo;s digital economy surpassed $300B GMV in 2025, a sevenfold increase in a decade. Formalisation through GST, digital payments, and Aadhaar is pulling vast informal sectors into financeable channels and creating investable companies in fintech, healthtech, logistics, and SaaS that did not exist here before. India became Asia&rsquo;s largest IPO market in 2024. Domestic capital now provides 75% of IPO funding, up from 25% three years ago. Capital formation is accelerating. The question for allocators is no longer whether to build an India and Southeast Asia program, but how quickly.</div>
+    </div>
+  </div>
+
+  <div class="s3-pullquote animate-in stagger-6">
+    <div class="s3-pullquote-text">Private capital works best where growth is structural, sectors are still professionalising, and outcomes are shaped by execution more than consensus. India and Southeast Asia increasingly offer all three.</div>
+  </div>
+
+  <div class="source-note animate-in stagger-7">Sources: Bain India PE Report 2025, EY-IVCA, IMF, World Bank, NPCI, e-Conomy SEA 2025, UNFPA.</div>
+  <div class="slide-footer"><span>Concept Document</span><div class="sep"></div><span>Confidential</span><div class="sep"></div><span>No Fund Vehicle Established</span></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 4: TWO ENGINES, ONE COMPELLING REGION (light bg)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide slide-light s4-slide" data-bg="light">
+  <div class="accent-bar"></div><div class="top-line"></div>
+
+  <div class="slide-header animate-in stagger-1">
+    <h2>Why India &amp; Southeast Asia <em>Now</em></h2>
+    <div class="sub">India brings scale and exit depth. Southeast Asia brings digitization and multi-market optionality.</div>
+  </div>
+  <div class="header-divider"></div>
+
+  <p class="s4-intro animate-in stagger-2">India and Southeast Asia should not be viewed as one blurred &ldquo;emerging markets&rdquo; bucket. They are complementary. India offers domestic scale, a deeper manager base, and increasingly credible exit markets. Southeast Asia offers a faster-evolving digital economy, fragmented sectors across multiple countries, and the ability to build regional winners rather than single-market champions. Together, they form one of the most attractive private-markets regions globally.</p>
+
+  <div class="s4-cards-row animate-in stagger-3">
+    <div class="s4-country-card s4-india-card">
+      <div class="s4-card-name">India</div>
+      <div class="s4-card-num">3.7</div>
+      <div class="s4-card-sub">% of global GDP</div>
+      <div class="s4-card-line"></div>
+      <div class="s4-card-tag">Scale at a level few markets can match.</div>
+    </div>
+    <div class="s4-country-card">
+      <div class="s4-card-name">Southeast Asia</div>
+      <div class="s4-card-num">3.6</div>
+      <div class="s4-card-sub">% of global GDP</div>
+      <div class="s4-card-line"></div>
+      <div class="s4-card-tag">A second large demand base across multiple fast-growing economies.</div>
+    </div>
+    <div class="s4-country-card s4-india-card">
+      <div class="s4-card-name">India</div>
+      <div class="s4-card-num">430+</div>
+      <div class="s4-card-sub">active fund managers</div>
+      <div class="s4-card-line"></div>
+      <div class="s4-card-tag">Deep enough to anchor a diversified private-markets program.</div>
+    </div>
+    <div class="s4-country-card">
+      <div class="s4-card-name">Southeast Asia</div>
+      <div class="s4-card-num">$25B</div>
+      <div class="s4-card-sub">PE/VC investment in 2024</div>
+      <div class="s4-card-line"></div>
+      <div class="s4-card-tag">Capital formation is accelerating across the region.</div>
+    </div>
+    <div class="s4-country-card s4-india-card">
+      <div class="s4-card-name">India</div>
+      <div class="s4-card-num">$27B</div>
+      <div class="s4-card-sub">PE/VC exits in 2024</div>
+      <div class="s4-card-line"></div>
+      <div class="s4-card-tag">Public markets and strategic exits are becoming more credible.</div>
+    </div>
+  </div>
+
+  <div class="s4-vline animate-in stagger-4"></div>
+
+  <div class="s4-blocks-row animate-in stagger-5">
+    <div class="s4-block-col">
+      <div class="s4-block-heading">India gives the portfolio scale and exit depth</div>
+      <div class="s4-block-body">India combines domestic demand, a large and growing manager base, and maturing realization pathways. That makes it the natural anchor market for a regional program and supports the heavier portfolio weight already reflected in the fund&rsquo;s construction.</div>
+    </div>
+    <div class="s4-block-col">
+      <div class="s4-block-heading">Southeast Asia adds digitization and regional optionality</div>
+      <div class="s4-block-body">Southeast Asia offers a different kind of growth: cross-border digital adoption, fragmented sectors, and businesses that can scale across multiple economies. It complements India rather than competes with it, giving the portfolio another source of company-building opportunity.</div>
+    </div>
+    <div class="s4-block-col">
+      <div class="s4-block-heading">Together, the combination is stronger than either market alone</div>
+      <div class="s4-block-body">Blending India and Southeast Asia improves exposure across sectors, manager types, and exit pathways while remaining focused on a region where demographic growth, digitization, and ecosystem maturity are all moving in the right direction. That is why the strategy is built around India as the core and Southeast Asia as the complementary second engine.</div>
+    </div>
+  </div>
+
+  <div class="source-note animate-in stagger-6">Sources: Bain India PE Report 2025, e-Conomy SEA 2024, IMF, IVCA, AVCJ.</div>
+  <div class="slide-footer"><span>Concept Document</span><div class="sep"></div><span>Confidential</span><div class="sep"></div><span>No Fund Vehicle Established</span></div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+const REF_H = 810;
+const progress = document.getElementById('progress');
+for (let i = 0; i < total; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+  dot.dataset.slide = i;
+  dot.addEventListener('click', () => goTo(i));
+  progress.appendChild(dot);
+}
+const deck = document.getElementById('deck');
+const dots = document.querySelectorAll('.progress-dot');
+const counter = document.getElementById('slideCounter');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const keyHint = document.getElementById('keyHint');
+function updateLayout() {
+  const w = window.innerWidth, h = window.innerHeight, scale = h / REF_H, refW = w / scale;
+  deck.style.width = (total * w) + 'px'; deck.style.height = h + 'px';
+  slides.forEach((s, i) => {
+    s.style.left = (i * w) + 'px'; s.style.width = refW + 'px';
+    s.style.height = REF_H + 'px'; s.style.transform = `scale(${scale})`;
+  });
+  deck.style.transform = `translateX(-${current * w}px)`;
+}
+updateLayout(); window.addEventListener('resize', updateLayout);
+function goTo(index) {
+  if (index < 0 || index >= total) return; current = index;
+  deck.style.transform = `translateX(-${current * window.innerWidth}px)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+  prevBtn.classList.toggle('disabled', current === 0);
+  nextBtn.classList.toggle('disabled', current === total - 1);
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  keyHint.classList.add('hidden');
+}
+function navigate(dir) { goTo(current + dir); }
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+let touchX = 0;
+document.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].screenX; }, { passive: true });
+document.addEventListener('touchend', (e) => {
+  const diff = touchX - e.changedTouches[0].screenX;
+  if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+}, { passive: true });
+let wheelLock = false;
+document.addEventListener('wheel', (e) => {
+  if (wheelLock) return;
+  if (Math.abs(e.deltaY) > 30) { wheelLock = true; navigate(e.deltaY > 0 ? 1 : -1); setTimeout(() => { wheelLock = false; }, 900); }
+}, { passive: true });
+goTo(0);
+const savedStyles = [];
+window.addEventListener('beforeprint', () => {
+  slides.forEach((s, i) => { savedStyles[i] = s.getAttribute('style') || ''; s.removeAttribute('style'); s.classList.add('active'); });
+  savedStyles.deck = deck.getAttribute('style') || ''; deck.removeAttribute('style');
+});
+window.addEventListener('afterprint', () => {
+  slides.forEach((s, i) => { if (savedStyles[i]) s.setAttribute('style', savedStyles[i]); s.classList.toggle('active', i === current); });
+  if (savedStyles.deck) deck.setAttribute('style', savedStyles.deck); updateLayout();
+});
+</script>
+</body>
+</html>
