@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why India &amp; SEA Now - v12</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gelasio:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --maroon: #6B0A14;
+  --dark: #241818;
+  --cream: #F4F7F3;
+  --green: #1D3B29;
+  --white: #FFFFFF;
+  --text-primary: #241818;
+  --text-secondary: rgba(36, 24, 24, 0.72);
+  --text-muted: rgba(36, 24, 24, 0.50);
+  --border-light: rgba(36, 24, 24, 0.08);
+  --border-medium: rgba(36, 24, 24, 0.12);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100%; overflow: hidden;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--dark);
+  -webkit-font-smoothing: antialiased; scrollbar-width: none;
+}
+body::-webkit-scrollbar { display: none; }
+
+/* Slide */
+.slide {
+  width: 100vw; height: 100vh; transform-origin: top left;
+  background: var(--white); padding: 88px 100px 60px;
+  display: flex; flex-direction: column; overflow: hidden; position: relative;
+}
+.accent-bar { position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--maroon); }
+.top-line { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--maroon); }
+@keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.deco-circle-dashed {
+  position: absolute; border: 1px dashed; border-radius: 50%;
+  pointer-events: none; animation: rotate-slow linear infinite;
+}
+
+/* Header */
+.slide-header { margin-bottom: 6px; }
+.slide-header h2 {
+  font-size: 28px; font-weight: 500;
+  font-family: 'Gelasio', Georgia, serif;
+  color: var(--text-primary); margin-bottom: 6px;
+}
+.slide-header h2 em { font-style: italic; color: var(--maroon); font-weight: 600; }
+.slide-header .sub {
+  font-size: 13px; font-weight: 300;
+  color: var(--text-secondary); line-height: 1.5;
+}
+.header-divider { height: 1px; background: var(--border-light); margin-bottom: 12px; }
+
+/* Footer */
+.slide-footer {
+  position: absolute; bottom: 24px; left: 100px; right: 100px;
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  font-size: 9px; font-weight: 400; color: var(--text-muted); z-index: 2;
+}
+.slide-footer .sep { width: 1px; height: 8px; background: var(--border-medium); }
+.source-note {
+  font-size: 8px; font-weight: 300; font-style: italic;
+  color: var(--text-muted); line-height: 1.5; margin-top: auto; padding-top: 2px;
+}
+
+/* Animations */
+.animate-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.slide.active .animate-in { opacity: 1; transform: translateY(0); }
+.stagger-1 { transition-delay: 0.08s; }
+.stagger-2 { transition-delay: 0.18s; }
+.stagger-3 { transition-delay: 0.30s; }
+.stagger-4 { transition-delay: 0.42s; }
+.stagger-5 { transition-delay: 0.54s; }
+
+/* ══════════════════════════════════════════════════════════
+   THREE-COLUMN CARD LAYOUT
+   ══════════════════════════════════════════════════════════ */
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: 220px 1fr 1fr;
+  gap: 8px;
+  flex: none;
+  align-items: stretch;
+}
+
+/* Column headers - standalone cells */
+.col-head {
+  padding: 10px 18px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(36,24,24,0.03);
+}
+.col-head-india {
+  background: var(--maroon);
+  color: var(--white);
+}
+.col-head-sea {
+  background: var(--green);
+  color: var(--white);
+}
+
+/* Layer cells in label column - standalone cards */
+.label-cell {
+  padding: 14px 18px;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  background: rgba(244,247,243,0.5);
+  border: 1px solid rgba(36,24,24,0.06);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(36,24,24,0.03);
+}
+.layer-pill {
+  display: block; font-size: 8.5px; font-weight: 600;
+  letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--white); background: var(--dark);
+  padding: 4px 12px; border-radius: 4px;
+  margin-bottom: 6px; text-align: center;
+}
+.layer-tag {
+  font-size: 10.5px; font-weight: 300;
+  color: var(--text-primary); font-style: italic; line-height: 1.4;
+}
+
+/* Metric cells - standalone cards, two-column */
+.metric-cell {
+  padding: 14px 20px;
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(36,24,24,0.06);
+  box-shadow: 0 2px 8px rgba(36,24,24,0.03);
+}
+.metric-cell.india-cell { background: rgba(107,10,20,0.02); }
+.metric-cell.sea-cell { background: rgba(29,59,41,0.02); }
+
+/* Left: hero + context */
+.metric-left {
+  display: flex; flex-direction: column;
+}
+.hero-top {
+  display: flex; align-items: baseline; gap: 6px;
+  margin-bottom: 4px;
+}
+.hero-num {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 22.5px; font-weight: 700; line-height: 1;
+}
+.hero-num.india { color: var(--maroon); }
+.hero-num.sea { color: var(--green); }
+.hero-unit {
+  font-size: 12px; font-weight: 500;
+  color: var(--text-primary); letter-spacing: 0.3px;
+}
+.hero-context {
+  font-size: 10.5px; font-weight: 300;
+  color: var(--text-primary); line-height: 1.55;
+}
+
+/* Right: small metrics stacked, aligned to bottom */
+.small-metrics {
+  display: flex; flex-direction: column; gap: 4px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(36,24,24,0.08);
+  align-self: end;
+}
+.sm-item {
+  font-size: 10px; font-weight: 400;
+  color: var(--text-primary); line-height: 1.3; white-space: nowrap;
+}
+.sm-item strong { font-weight: 700; }
+.sm-item.india strong { color: var(--maroon); }
+.sm-item.sea strong { color: var(--green); }
+.sm-pipe { display: none; }
+
+/* Nav */
+.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: flex-end; padding: 20px 48px;
+}
+.nav-download {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1px solid var(--border-medium); background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s ease; color: var(--text-muted);
+}
+.nav-download:hover { background: var(--maroon); border-color: var(--maroon); color: white; }
+.nav-download svg { width: 14px; height: 14px; }
+
+/* Print */
+@media print {
+  @page { size: landscape; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html, body { overflow: visible !important; background: white !important; }
+  .nav-bar { display: none !important; }
+  .slide { width: 100% !important; height: 100vh !important; }
+  .animate-in { opacity: 1 !important; transform: none !important; }
+  .deco-circle-dashed { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <button class="nav-download" onclick="window.print()" title="Print / Save PDF">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  </button>
+</div>
+
+<div class="slide active">
+  <div class="accent-bar"></div><div class="top-line"></div>
+  <div class="deco-circle-dashed" style="top:-12%;right:-4%;width:40vh;height:40vh;border-color:rgba(107,10,20,0.10);animation-duration:95s;"></div>
+  <div class="deco-circle-dashed" style="bottom:-18%;right:8%;width:28vh;height:28vh;border-color:rgba(107,10,20,0.07);animation-duration:130s;animation-direction:reverse;"></div>
+
+  <div class="slide-header animate-in stagger-1">
+    <h2>Why India &amp; Southeast Asia <em>Now</em></h2>
+    <div class="sub">Five structural dimensions. Two complementary markets.</div>
+  </div>
+  <div class="header-divider animate-in stagger-1"></div>
+
+  <!-- Three-column grid of individual cells -->
+  <div class="grid-wrapper animate-in stagger-2">
+
+    <!-- Row 0: Column headers (col 2 & 3 only) -->
+    <div class="col-head col-head-india" style="grid-column:2;">India</div>
+    <div class="col-head col-head-sea" style="grid-column:3;">Southeast Asia</div>
+
+    <!-- Row 1: Economic Scale & Growth -->
+    <div class="label-cell" style="grid-column:1; grid-row:2;">
+      <div class="layer-pill">Economic Scale &amp; Growth</div>
+      <div class="layer-tag">Two of the world's fastest-growing large economies</div>
+    </div>
+    <div class="metric-cell india-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num india">$4.5T</span><span class="hero-unit">GDP</span></div>
+        <div class="hero-context">The world's fourth-largest economy, growing at more than double the global average. On track to become the third-largest by ~2028, surpassing Germany.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item india"><strong>6.5%</strong> growth (2025)</span>
+        <span class="sm-item india"><strong>3rd</strong> largest by ~2028</span>
+      </div>
+    </div>
+    <div class="metric-cell sea-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num sea">$4.1T</span><span class="hero-unit">GDP</span></div>
+        <div class="hero-context">ASEAN is the world's fifth-largest economy as a bloc and is projected to rank fourth by 2030, with six economies each growing 4-5% annually.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item sea"><strong>4.5%</strong> growth (2025)</span>
+        <span class="sm-item sea"><strong>4th</strong> largest by 2030</span>
+      </div>
+    </div>
+
+    <!-- Row 2: Demographics -->
+    <div class="label-cell">
+      <div class="layer-pill">Demographics</div>
+      <div class="layer-tag">Youngest major-economy workforces</div>
+    </div>
+    <div class="metric-cell india-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num india">28.4</span><span class="hero-unit">Median Age</span></div>
+        <div class="hero-context">The youngest major-economy workforce globally. The demographic window extends through the 2050s while developed economies contract.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item india"><strong>68%</strong> working-age</span>
+        <span class="sm-item india"><strong>900M+</strong> internet users</span>
+      </div>
+    </div>
+    <div class="metric-cell sea-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num sea">~30</span><span class="hero-unit">Median Age</span></div>
+        <div class="hero-context">684 million people across six high-growth economies. Young, digitally literate, ~68% working-age.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item sea"><strong>~68%</strong> working-age</span>
+        <span class="sm-item sea"><strong>~500M</strong> internet users</span>
+      </div>
+    </div>
+
+    <!-- Row 3: Digital Infrastructure -->
+    <div class="label-cell">
+      <div class="layer-pill">Digital Infrastructure</div>
+      <div class="layer-tag">World-leading digital rails creating investable companies</div>
+    </div>
+    <div class="metric-cell india-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num india">~50%</span><span class="hero-unit">Global Real-Time Payments</span></div>
+        <div class="hero-context">India's UPI processes more daily transactions than Visa. 500M+ people entered formal finance via digital rails in under a decade.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item india"><strong>$402B</strong> digital economy</span>
+        <span class="sm-item india"><strong>84%</strong> payments digital</span>
+      </div>
+    </div>
+    <div class="metric-cell sea-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num sea">$300B+</span><span class="hero-unit">Digital Economy GMV</span></div>
+        <div class="hero-context">Sevenfold increase in a decade. $30B+ committed to AI infrastructure in H1 2024 alone.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item sea"><strong>$30B+</strong> AI infra (H1 '24)</span>
+        <span class="sm-item sea"><strong>56%</strong> payments digital</span>
+      </div>
+    </div>
+
+    <!-- Row 4: Consumption + Trade -->
+    <div class="label-cell">
+      <div class="layer-pill">Consumption + Trade</div>
+      <div class="layer-tag">Dual engines - domestic demand and export strength</div>
+    </div>
+    <div class="metric-cell india-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num india">~60%</span><span class="hero-unit">GDP = Consumption</span></div>
+        <div class="hero-context">World's third-largest consumer market. Per capita income doubled in a decade. $780B+ exports as a second engine.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item india"><strong>3rd</strong> consumer market</span>
+        <span class="sm-item india"><strong>$780B+</strong> exports</span>
+      </div>
+    </div>
+    <div class="metric-cell sea-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num sea">~55%</span><span class="hero-unit">GDP = Consumption</span></div>
+        <div class="hero-context">680M digital-first consumers across six economies. $1.7T+ combined exports as the leading China+1 hub.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item sea"><strong>680M</strong> consumers</span>
+        <span class="sm-item sea"><strong>$1.7T+</strong> exports</span>
+      </div>
+    </div>
+
+    <!-- Row 5: PE/VC Ecosystem -->
+    <div class="label-cell">
+      <div class="layer-pill">PE/VC Ecosystem</div>
+      <div class="layer-tag">Institutional depth for portfolio construction</div>
+    </div>
+    <div class="metric-cell india-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num india">$56B</span><span class="hero-unit">PE/VC (2024)</span></div>
+        <div class="hero-context">Second-highest on record. 430+ managers, buyout share at 51%. Asia's largest IPO market by deal count.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item india"><strong>$33B</strong> exits</span>
+        <span class="sm-item india"><strong>430+</strong> managers</span>
+      </div>
+    </div>
+    <div class="metric-cell sea-cell">
+      <div class="metric-left">
+        <div class="hero-top"><span class="hero-num sea">$16B</span><span class="hero-unit">PE (2024)</span></div>
+        <div class="hero-context">Rebounded 60%. Cross-border M&amp;A from Japan, Korea, ASEAN diversifying exits. Singapore as regional hub.</div>
+      </div>
+      <div class="small-metrics">
+        <span class="sm-item sea"><strong>60%</strong> rebound</span>
+        <span class="sm-item sea"><strong>M&amp;A</strong> exits</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="source-note animate-in stagger-3">Sources: Bain India PE Report 2025, EY-IVCA, IMF, World Bank, NPCI, e-Conomy SEA 2025, UNFPA, ADB, ASEAN Secretariat.</div>
+  <div class="slide-footer"><span>Concept Document</span><div class="sep"></div><span>Confidential</span><div class="sep"></div><span>No Fund Vehicle Established</span></div>
+</div>
+
+<script>
+document.querySelector('.slide').classList.add('active');
+const REF_H = 810;
+function updateLayout() {
+  const slide = document.querySelector('.slide');
+  const w = window.innerWidth, h = window.innerHeight;
+  const scale = h / REF_H, refW = w / scale;
+  slide.style.width = refW + 'px';
+  slide.style.height = REF_H + 'px';
+  slide.style.transform = `scale(${scale})`;
+}
+updateLayout();
+window.addEventListener('resize', updateLayout);
+let savedStyle = '';
+window.addEventListener('beforeprint', () => {
+  const s = document.querySelector('.slide');
+  savedStyle = s.getAttribute('style') || '';
+  s.removeAttribute('style');
+});
+window.addEventListener('afterprint', () => {
+  const s = document.querySelector('.slide');
+  if (savedStyle) s.setAttribute('style', savedStyle);
+  updateLayout();
+});
+</script>
+</body>
+</html>
